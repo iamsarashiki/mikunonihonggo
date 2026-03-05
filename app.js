@@ -245,6 +245,10 @@ function toggleAdvancedOptions() {
 }
 
 // 3. Eksekusi Generate Banyak Pola (Main Feature)
+// ==========================================
+// MODUL GENERATOR LAB (VERSI BAHASA & JEPANG)
+// ==========================================
+
 function generateNewBatch() {
     const babId = document.getElementById('select-bab-gen').value;
     const resultGrid = document.getElementById('ai-result-grid');
@@ -255,50 +259,85 @@ function generateNewBatch() {
         return;
     }
 
-    // Ambil pola yang dicentang saja
     const selectedCheckboxes = document.querySelectorAll('.pattern-checkbox:checked');
     let selectedPatternIds = Array.from(selectedCheckboxes).map(cb => cb.value);
 
-    // Jika tidak ada yang dicentang (atau opsi lanjutan tertutup), ambil semua pola di bab itu
     if (selectedPatternIds.length === 0) {
         selectedPatternIds = grammarData['bab' + babId].patterns.map(p => p.id);
     }
 
-    // Efek Loading
     statusText.innerText = "GENERATING_VIRTUAL_CONTEXT...";
-    resultGrid.innerHTML = '<div class="loading-spinner">PROCESSING...</div>';
+    resultGrid.innerHTML = '<div class="loading-spinner">PROCESSING_JP_DATA...</div>';
 
     setTimeout(() => {
-        resultGrid.innerHTML = ''; // Bersihkan loading
+        resultGrid.innerHTML = ''; 
         
         selectedPatternIds.forEach(id => {
             const p = grammarData['bab' + babId].patterns.find(item => item.id === id);
             if (!p) return;
 
-            // Logika kalimat acak
-            const subs = ["Miku", "Rizal", "Afif", "Ragil", "Sensei"];
-            const s = subs[Math.floor(Math.random() * subs.length)];
+            // Database Mini untuk Subjek & Objek (Hiragana/Katakana)
+            const characters = [
+                { jp: "ミクさん", ro: "Miku-san", id: "Miku" },
+                { jp: "リザルさん", ro: "Rizaru-san", id: "Rizal" },
+                { jp: "わたし", ro: "Watashi", id: "Saya" },
+                { jp: "せんせい", ro: "Sensei", id: "Guru" }
+            ];
+            const topics = [
+                { jp: "にほんご", ro: "Nihongo", id: "Bahasa Jepang" },
+                { jp: "すし", ro: "Sushi", id: "Sushi" },
+                { jp: "アニメ", ro: "Anime", id: "Anime" }
+            ];
+
+            const char = characters[Math.floor(Math.random() * characters.length)];
+            const topic = topics[Math.floor(Math.random() * topics.length)];
             
+            // Bersihkan simbol ~ dari pola untuk digabung ke kalimat
+            const cleanPattern = p.label.replace('~', '');
+
             const card = document.createElement('div');
             card.className = 'ai-result-card';
             card.style.cssText = `
-                background: rgba(255,255,255,0.03);
-                border: 1px solid #333;
+                background: rgba(0,0,0,0.3);
+                border: 1px solid var(--miku-cyan);
                 padding: 15px;
-                border-radius: 5px;
+                border-radius: 8px;
                 animation: fadeIn 0.5s ease;
+                border-left: 4px solid var(--miku-pink);
             `;
 
             card.innerHTML = `
-                <div style="color:var(--miku-cyan); font-family:Orbitron; font-size:0.8rem; margin-bottom:10px;">[${p.label}]</div>
-                <p style="font-weight:bold; color:#fff; margin-bottom:5px;">${s} wa ${p.label.replace('~', '')} koto ga dekimasu.</p>
-                <p style="font-size:0.75rem; color:#888; font-style:italic;">"Generated Example for ${p.id}"</p>
-                <button onclick="openAIPopup('${p.id}')" style="margin-top:10px; background:none; border:1px solid var(--miku-pink); color:var(--miku-pink); font-size:0.6rem; padding:3px 8px; cursor:pointer;">DEEP_ANALYZE</button>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                    <span style="color:var(--miku-cyan); font-family:Orbitron; font-size:0.75rem;">[ID: ${p.id}]</span>
+                    <span style="background:var(--miku-pink); color:#000; font-size:0.6rem; padding:2px 5px; font-weight:bold;">N4_LEVEL</span>
+                </div>
+
+                <p style="font-size:1.2rem; color:#fff; margin-bottom:5px; line-height:1.6;">
+                    ${char.jp} は ${topic.jp} を ${cleanPattern}。
+                </p>
+
+                <p style="font-size:0.8rem; color:var(--miku-cyan); font-family:Rajdhani; margin-bottom:10px;">
+                    ${char.ro} wa ${topic.ro} o ${cleanPattern.toLowerCase()}.
+                </p>
+
+                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:4px;">
+                    <p style="font-size:0.85rem; color:#eee; line-height:1.4;">
+                        <strong style="color:var(--miku-pink);">Artinya:</strong> <br>
+                        ${char.id} melakukan aktivitas ${topic.id} menggunakan pola <strong>${p.label}</strong>.
+                    </p>
+                    <p style="font-size:0.7rem; color:#aaa; margin-top:5px; border-top:1px solid #333; padding-top:5px;">
+                        Catatan: ${p.desc}
+                    </p>
+                </div>
+
+                <button onclick="openAIPopup('${p.id}')" style="margin-top:12px; width:100%; background:transparent; border:1px dashed var(--miku-cyan); color:var(--miku-cyan); font-family:Orbitron; font-size:0.65rem; padding:8px; cursor:pointer; transition:0.3s;">
+                    LIHAT ANALISIS PARTIKEL [+]
+                </button>
             `;
             
             resultGrid.appendChild(card);
         });
 
-        statusText.innerText = `Berhasil generate ${selectedPatternIds.length} pola baru.`;
-    }, 800);
+        statusText.innerText = `DATABASE_SYNC: ${selectedPatternIds.length} Pola Berhasil Dimuat.`;
+    }, 1000);
 }
