@@ -639,3 +639,45 @@ function generateFreshSentence() {
         </div>
     `;
 }
+
+function renderSidebar() {
+    const sidebarNav = document.getElementById('chapter-list');
+    
+    // Jangan hapus menu [AI] POLA GENERATOR yang sudah ada
+    const specialNav = sidebarNav.querySelector('.special-nav');
+    const hr = sidebarNav.querySelector('hr');
+    
+    sidebarNav.innerHTML = ''; // Bersihkan dulu
+    
+    // Masukkan kembali menu spesial jika tadi terhapus
+    if(specialNav) sidebarNav.appendChild(specialNav);
+    if(hr) sidebarNav.appendChild(hr);
+
+    // Loop data dari grammar_data.js (Bab 1 sampai 25)
+    for (let i = 1; i <= 25; i++) {
+        const chapterDiv = document.createElement('div');
+        chapterDiv.className = 'chapter-item';
+        
+        // Ambil judul dari database jika ada, kalau tidak pakai default
+        const title = grammarData['bab' + i] ? grammarData['bab' + i].title : `CHAPTER_${i}`;
+        
+        chapterDiv.innerHTML = `
+            <span class="ch-num">${i < 10 ? '0' + i : i}</span>
+            <span class="ch-title">${title}</span>
+        `;
+        
+        // Pasang event klik: Sekarang Langsung ke Pop-up!
+        chapterDiv.onclick = (e) => selectChapter(i, chapterDiv);
+        
+        sidebarNav.appendChild(chapterDiv);
+    }
+}
+
+// Pastikan fungsi ini dipanggil saat halaman selesai dimuat
+window.onload = () => {
+    renderSidebar();
+    // Inisialisasi swiper jika masih digunakan untuk fallback
+    if(typeof Swiper !== 'undefined') {
+        initSwiper(); 
+    }
+};
