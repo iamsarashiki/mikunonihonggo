@@ -214,3 +214,87 @@ function createAIVariation(pattern) {
         indonesia: `(AI) ${s} benar-benar akan ${a.toLowerCase()} menggunakan pola ini.`
     };
 }
+
+
+
+// 1. Fungsi Utama di Halaman Generator
+function generateNewBatch() {
+    const babNum = document.getElementById('select-bab-gen').value;
+    const grid = document.getElementById('ai-result-grid');
+    const sourceData = grammarData['bab' + babNum];
+
+    if (!sourceData) return;
+
+    grid.innerHTML = '<p class="blink">PROCESSING_ALGORITHM...</p>';
+
+    setTimeout(() => {
+        grid.innerHTML = '';
+        sourceData.patterns.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'ai-card';
+            card.innerHTML = `
+                <div style="font-size: 0.6rem; color: var(--miku-pink); font-family: Orbitron;">[SOURCE: BAB_${babNum}]</div>
+                <h4 style="color:var(--miku-cyan); margin: 10px 0;">${p.label}</h4>
+                <button onclick="openAIPopup('${p.id}')" class="btn-ai-gen" style="width:100%">ANALYZE_STRUCTURE [AI]</button>
+            `;
+            grid.appendChild(card);
+        });
+    }, 800);
+}
+
+// 2. Fungsi Pop-up Analisis Mendalam
+function openAIPopup(patternId) {
+    const modal = document.getElementById('detail-modal');
+    const response = document.getElementById('ai-response');
+    const loading = document.getElementById('ai-loading');
+    
+    modal.style.display = 'flex';
+    loading.classList.remove('hidden');
+    response.innerHTML = '';
+
+    // Cari data pola
+    let p = null;
+    for (let k in grammarData) {
+        p = grammarData[k].patterns.find(item => item.id === patternId);
+        if (p) break;
+    }
+
+    // Simulasi AI Berpikir (Analisis Partikel)
+    setTimeout(() => {
+        loading.classList.add('hidden');
+        
+        // Logika Analisis Partikel Otomatis
+        let particleNote = "Partikel ini berfungsi sebagai penanda objek atau arah sesuai konteks kalimat.";
+        if (p.label.includes("ni")) {
+            particleNote = "Penggunaan partikel <span class='particle-highlight'>ni</span> di sini menunjukkan titik tujuan spesifik atau waktu tetap. Berbeda dengan 'e' yang lebih fokus ke arah perjalanan.";
+        } else if (p.label.includes("de")) {
+            particleNote = "Partikel <span class='particle-highlight'>de</span> digunakan karena menunjukkan tempat terjadinya suatu aktivitas aktif atau alat yang digunakan.";
+        } else if (p.label.includes("ga")) {
+            particleNote = "Partikel <span class='particle-highlight'>ga</span> digunakan untuk memberikan penekanan pada subjek atau menyatakan kemampuan/keinginan.";
+        }
+
+        const subjects = ["Miku", "Rizal-san", "Sensei", "Kareshi"];
+        const s = subjects[Math.floor(Math.random() * subjects.length)];
+
+        response.innerHTML = `
+            <div class="ai-deep-dive">
+                <h3 style="color:var(--miku-cyan); font-family:Orbitron; border-bottom:1px solid #333; padding-bottom:5px;">${p.label}</h3>
+                <p style="margin:15px 0; font-size:0.95rem;">${p.desc}</p>
+                
+                <div class="new-ai-sentence">
+                    <small style="color:var(--miku-pink)">[NEW_GENERATED_EXAMPLE]</small>
+                    <p style="font-weight:bold; font-size:1.1rem; margin-top:5px;">${s} wa Nihongo no benkyou <span class="particle-highlight">${p.label}</span>.</p>
+                </div>
+
+                <div class="particle-analysis">
+                    <strong style="color:var(--miku-cyan)">[PARTICLE_LOGIC]:</strong><br>
+                    ${particleNote}
+                </div>
+
+                <div style="margin-top:15px; font-size:0.8rem; color:#666;">
+                    *Perubahan bentuk kata kerja mengikuti aturan: <br> ${p.rules}
+                </div>
+            </div>
+        `;
+    }, 1200);
+}
