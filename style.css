@@ -1,25 +1,58 @@
 :root {
+    --bg-dark: #000000;
+    --card-bg: rgba(20, 20, 20, 0.8);
     --miku-cyan: #39c5bb;
     --miku-pink: #ff007f;
+    --neon-glow-cyan: 0 0 10px rgba(57, 197, 187, 0.5), 0 0 20px rgba(57, 197, 187, 0.3);
+    --neon-glow-pink: 0 0 10px rgba(255, 0, 127, 0.5), 0 0 20px rgba(255, 0, 127, 0.3);
 }
 
-/* Neon Text */
-.neon-text-cyan { color: var(--miku-cyan); text-shadow: 0 0 10px var(--miku-cyan); }
-.neon-text-pink { color: var(--miku-pink); text-shadow: 0 0 10px var(--miku-pink); }
+body {
+    background-color: var(--bg-dark);
+    color: #ffffff;
+    overflow-x: hidden;
+}
 
-/* Neon Border & Box */
-.neon-border-cyan { border: 1px solid var(--miku-cyan); box-shadow: 0 0 10px rgba(57,197,187,0.2); }
-.neon-box-pink { border: 1px solid var(--miku-pink); background: rgba(255,0,127,0.05); }
+/* Sidebar & Main Content Dark Mode */
+.sidebar {
+    background: #050505;
+    border-right: 1px solid #1a1a1a;
+}
 
-/* Animasi Blink */
-.blink { animation: blink-anim 1.5s infinite; }
-@keyframes blink-anim { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.main-content {
+    background: var(--bg-dark);
+}
 
-/* Responsivitas Grid */
-.modal-pattern-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 10px;
+/* Efek Neon pada Teks */
+.neon-text-cyan {
+    color: var(--miku-cyan);
+    text-shadow: var(--neon-glow-cyan);
+}
+
+.neon-text-pink {
+    color: var(--miku-pink);
+    text-shadow: var(--neon-glow-pink);
+}
+
+/* Card & Box Neon */
+.ai-result-card {
+    background: var(--card-bg) !important;
+    border: 1px solid #222 !important;
+    border-left: 4px solid var(--miku-cyan) !important;
+    transition: 0.3s;
+}
+
+.ai-result-card:hover {
+    border-color: var(--miku-cyan) !important;
+    box-shadow: var(--neon-glow-cyan);
+    transform: translateY(-2px);
+}
+
+/* Modal Dark Neon */
+.modal-content {
+    background: #0a0a0a !important;
+    border: 1px solid var(--miku-cyan) !important;
+    box-shadow: var(--neon-glow-cyan);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
