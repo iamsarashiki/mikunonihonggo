@@ -1,43 +1,46 @@
 // ==========================================
-// SARASHIKI_OS: CORE LOGIC v3.0 [ULTIMATE]
+// SARASHIKI_OS v3.5: NEON_PROTOCOL [RESPONSIVE]
 // ==========================================
 
 let currentAnalyzedPattern = null;
-let isGenMinimized = false;
 
-// 1. BOOTING SYSTEM
+// 1. BOOTING SYSTEM WITH NEON LOG
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("SARASHIKI_SYSTEM: Booting...");
-    renderSidebar();      
-    populateBabSelect();  
+    console.log("%c [SYS] SARASHIKI_OS: NEON_SYSTEM_ACTIVE ", "color:#39c5bb; background:#000; font-weight:bold;");
+    
+    if (typeof grammarData !== 'undefined') {
+        renderSidebar();      
+        populateBabSelect();  
+    } else {
+        console.error("[!] DATABASE_OFFLINE: Periksa grammar_data.js");
+    }
 });
 
-// 2. SIDEBAR ENGINE
+// 2. SIDEBAR ENGINE (MOBILE FRIENDLY)
 function renderSidebar() {
     const sidebarNav = document.getElementById('chapter-list');
     if (!sidebarNav) return;
-
     sidebarNav.innerHTML = ''; 
 
-    // Tombol Lab Generator
+    // Tombol Lab Generator dengan Efek Neon Pink
     const genNav = document.createElement('div');
-    genNav.className = 'chapter-item special-nav';
-    genNav.innerHTML = `<span style="color:var(--miku-pink)">[AI]</span> POLA GENERATOR`;
-    genNav.onclick = () => showPage('generator');
+    genNav.className = 'chapter-item special-nav neon-border-pink';
+    genNav.innerHTML = `<span class="neon-text-pink">[AI]</span> POLA GENERATOR`;
+    genNav.onclick = () => {
+        showPage('generator');
+        if(window.innerWidth < 768) toggleSidebar(); // Auto-close di mobile
+    };
     sidebarNav.appendChild(genNav);
 
     const hr = document.createElement('hr');
-    hr.style.border = "0.5px solid #222";
-    hr.style.margin = "10px 0";
+    hr.className = "neon-hr";
     sidebarNav.appendChild(hr);
 
     // Loop Bab 1 - 25
     for (let i = 1; i <= 25; i++) {
-        const babKey = 'bab' + i;
-        const babData = typeof grammarData !== 'undefined' ? grammarData[babKey] : null;
-        
+        const babData = grammarData['bab' + i];
         const chapterDiv = document.createElement('div');
-        chapterDiv.className = 'chapter-item';
+        chapterDiv.className = 'chapter-item neon-hover-cyan';
         const title = babData ? babData.title : `CHAPTER ${i}`;
         
         chapterDiv.innerHTML = `
@@ -49,12 +52,13 @@ function renderSidebar() {
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             chapterDiv.classList.add('active');
             selectChapter(i); 
+            if(window.innerWidth < 768) toggleSidebar(); 
         };
         sidebarNav.appendChild(chapterDiv);
     }
 }
 
-// 3. AUTO POP-UP (CHAPTER LIST)
+// 3. AUTO POP-UP & AI ANALYSIS (BAHASA INDONESIA)
 function selectChapter(num) {
     const data = grammarData['bab' + num];
     const modal = document.getElementById('detail-modal');
@@ -71,16 +75,16 @@ function selectChapter(num) {
     setTimeout(() => {
         loading.classList.add('hidden');
         let htmlContent = `
-            <div class="modal-bab-header">
-                <h3 style="color:var(--miku-cyan); font-family:Orbitron;">CHAPTER_${num}: ${data.title}</h3>
-                <p style="font-size:0.7rem; color:#666; margin-bottom:15px;">PILIH POLA UNTUK ANALISIS MENDALAM:</p>
+            <div class="modal-bab-header neon-text-cyan">
+                <h3 style="font-family:Orbitron;">CHAPTER_${num}: ${data.title}</h3>
+                <p style="font-size:0.7rem; color:#888;">DATABASE_SYNC_SUCCESS // ${data.patterns.length} POLA</p>
             </div>
-            <div class="modal-pattern-grid" style="display:grid; gap:8px;">
+            <div class="modal-pattern-grid">
         `;
 
         data.patterns.forEach(p => {
             htmlContent += `
-                <button onclick="openAIPopup('${p.id}')" class="btn-ai-gen" style="text-align:left; width:100%; padding:10px;">
+                <button onclick="openAIPopup('${p.id}')" class="btn-neon-small">
                     <span style="color:var(--miku-pink)">[→]</span> ${p.label}
                 </button>
             `;
@@ -90,12 +94,8 @@ function selectChapter(num) {
     }, 500);
 }
 
-// 4. AI ANALYSIS & REFRESH LOGIC
 function openAIPopup(patternId) {
     const response = document.getElementById('ai-response');
-    const genContainer = document.getElementById('ai-generated-container');
-    
-    // Cari Pola
     currentAnalyzedPattern = null;
     for (let k in grammarData) {
         currentAnalyzedPattern = grammarData[k].patterns.find(item => item.id === patternId);
@@ -104,33 +104,55 @@ function openAIPopup(patternId) {
 
     if (!currentAnalyzedPattern) return;
 
-    // Pasang fungsi Refresh ke tombol footer
     document.getElementById('gen-btn-ai').onclick = () => generateFreshSentence();
+    
+    // Penjelasan AI dalam Bahasa Indonesia
+    const label = currentAnalyzedPattern.label.toLowerCase();
+    let particleLogic = "Pola ini mengatur struktur kalimat secara umum.";
+    if (label.includes("ni")) particleLogic = "Menggunakan <span class='neon-text-cyan'>に (ni)</span> sebagai penanda target atau waktu.";
+    else if (label.includes("de")) particleLogic = "Menggunakan <span class='neon-text-cyan'>で (de)</span> sebagai penanda lokasi atau alat.";
 
-    // Render Analisis Statis
-    renderStaticAnalysis(currentAnalyzedPattern, response);
-    // Generate Kalimat Pertama
+    response.innerHTML = `
+        <div class="ai-deep-dive">
+            <h3 class="neon-text-pink">${currentAnalyzedPattern.label}</h3>
+            <div class="neon-box-cyan" style="margin:15px 0; padding:10px;">
+                <small>[LOGIKA_AI]</small>
+                <p style="font-size:0.85rem;">${particleLogic}</p>
+            </div>
+            <p style="font-size:0.8rem; border-top:1px solid #333; padding-top:10px;">${currentAnalyzedPattern.rules}</p>
+        </div>
+    `;
     generateFreshSentence();
 }
 
+// 4. GENERATOR LAB (RESPONSIVE GRID)
+function generateNewBatch() {
+    const babId = document.getElementById('select-bab-gen').value;
+    const resultGrid = document.getElementById('ai-result-grid');
+    if (!babId) return;
 
-
-function generateFreshSentence() {
-    const container = document.getElementById('ai-generated-container');
-    const p = currentAnalyzedPattern;
-    const subs = ["Miku", "Rizal-san", "Sensei", "Watashi"];
-    const s = subs[Math.floor(Math.random() * subs.length)];
-
-    container.innerHTML = `
-        <div class="new-ai-sentence" style="margin-top:20px; border-top:1px dashed #444; padding-top:15px; animation: fadeIn 0.4s ease;">
-            <small style="color:var(--miku-pink); font-family:Orbitron;">[NEW_AI_GENERATED_EXAMPLE]</small>
-            <p style="font-weight:bold; font-size:1.1rem; color:#fff; margin-top:5px;">${s} wa Nihongo o benkyou ${p.label.replace('~','')}.</p>
-            <p style="font-size:0.8rem; color:#aaa;">"Aktivitas ${s} terkait pola ${p.label}."</p>
-        </div>
-    `;
+    resultGrid.innerHTML = '<div class="neon-text-cyan blink">SYNCING_DATA...</div>';
+    
+    setTimeout(() => {
+        resultGrid.innerHTML = '';
+        const patterns = grammarData['bab' + babId].patterns;
+        
+        patterns.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'ai-result-card neon-border-cyan';
+            
+            card.innerHTML = `
+                <div class="card-id neon-text-pink">[${p.id}]</div>
+                <p class="jp-text">ミクさんは ${p.label.replace('~','')}。</p>
+                <p class="id-text"><strong>Artinya:</strong> Miku melakukan ${p.label}.</p>
+                <button onclick="openAIPopup('${p.id}')" class="btn-mini-neon">ANALISIS</button>
+            `;
+            resultGrid.appendChild(card);
+        });
+    }, 600);
 }
 
-// 5. GENERATOR LAB FUNCTIONS
+// 5. HELPER FUNCTIONS
 function showPage(pageId) {
     const genPage = document.getElementById('page-generator');
     const mainSwiper = document.querySelector('.mySwiper');
@@ -140,20 +162,6 @@ function showPage(pageId) {
     } else {
         genPage.classList.add('hidden');
         mainSwiper.classList.remove('hidden');
-    }
-}
-
-function toggleGeneratorMinimize() {
-    const container = document.getElementById('page-generator');
-    const btnText = document.getElementById('btn-minimize-gen');
-    isGenMinimized = !isGenMinimized;
-    
-    if (isGenMinimized) {
-        container.classList.add('is-minimized');
-        btnText.innerHTML = `[+] EXPAND_INTERFACE`;
-    } else {
-        container.classList.remove('is-minimized');
-        btnText.innerHTML = `[_] MINIMIZE_INTERFACE`;
     }
 }
 
@@ -169,113 +177,18 @@ function populateBabSelect() {
     }
 }
 
-function closeModal() {
-    document.getElementById('detail-modal').style.display = 'none';
+function generateFreshSentence() {
+    const container = document.getElementById('ai-generated-container');
+    if (!currentAnalyzedPattern) return;
+    container.innerHTML = `
+        <div class="neon-box-pink" style="margin-top:15px; padding:10px;">
+            <small class="blink">[NEW_GEN]</small>
+            <p style="font-size:1.1rem;">わたしは ${currentAnalyzedPattern.label.replace('~','')}。</p>
+        </div>
+    `;
 }
 
-
-
-// ==========================================
-// MODUL GENERATOR LAB (Fungsi Eksekusi)
-// ==========================================
-
-// 1. Cek jumlah pola saat Bab dipilih di Generator
-function checkPatternCount() {
-    const babId = document.getElementById('select-bab-gen').value;
-    const btnAdvanced = document.getElementById('btn-advanced');
-    const advBox = document.getElementById('advanced-pattern-list');
-    const checkboxContainer = document.getElementById('checkbox-container');
-    
-    // Reset tampilan
-    btnAdvanced.classList.add('hidden');
-    advBox.classList.add('hidden');
-    checkboxContainer.innerHTML = '';
-
-    if (!babId || !grammarData['bab' + babId]) return;
-
-    const patterns = grammarData['bab' + babId].patterns;
-
-    // Jika pola lebih dari 1, munculkan tombol Opsi Lanjutan
-    if (patterns.length > 1) {
-        btnAdvanced.classList.remove('hidden');
-        
-        // Isi checkbox untuk pilihan spesifik
-        patterns.forEach(p => {
-            const label = document.createElement('label');
-            label.style.display = 'flex';
-            label.style.alignItems = 'center';
-            label.style.gap = '8px';
-            label.style.fontSize = '0.7rem';
-            label.style.color = '#fff';
-            
-            label.innerHTML = `
-                <input type="checkbox" value="${p.id}" class="pattern-checkbox" checked>
-                ${p.label}
-            `;
-            checkboxContainer.appendChild(label);
-        });
-    }
-}
-
-// 2. Toggle Buka/Tutup Opsi Lanjutan
-function toggleAdvancedOptions() {
-    const advBox = document.getElementById('advanced-pattern-list');
-    advBox.classList.toggle('hidden');
-}
-
-// 3. Eksekusi Generate Banyak Pola (Main Feature)
-// ==========================================
-// MODUL GENERATOR LAB (VERSI BAHASA & JEPANG)
-// ==========================================
-
-. generateNewBatch() {
-    const babId = document.getElementById('select-bab-gen').value;
-    const resultGrid = document.getElementById('ai-result-grid');
-    const statusText = document.getElementById('gen-status-text');
-
-    if (!babId) {
-        alert("Pilih Bab terlebih dahulu, Sarashiki!");
-        return;
-    }
-
-    const selectedCheckboxes = document.querySelectorAll('.pattern-checkbox:checked');
-    let selectedPatternIds = Array.from(selectedCheckboxes).map(cb => cb.value);
-
-    if (selectedPatternIds.length === 0) {
-        selectedPatternIds = grammarData['bab' + babId].patterns.map(p => p.id);
-    }
-
-    statusText.innerText = "GENERATING_VIRTUAL_CONTEXT...";
-    resultGrid.innerHTML = '<div class="loading-spinner">PROCESSING_JP_DATA...</div>';
-
-    setTimeout(() => {
-        resultGrid.innerHTML = ''; 
-        
-        selectedPatternIds.forEach(id => {
-            const p = grammarData['bab' + babId].patterns.find(item => item.id === id);
-            if (!p) return;
-
-            // Database Mini untuk Subjek & Objek (Hiragana/Katakana)
-            const characters = [
-                { jp: "ミクさん", ro: "Miku-san", id: "Miku" },
-                { jp: "リザルさん", ro: "Rizaru-san", id: "Rizal" },
-                { jp: "わたし", ro: "Watashi", id: "Saya" },
-                { jp: "せんせい", ro: "Sensei", id: "Guru" }
-            ];
-            const topics = [
-                { jp: "にほんご", ro: "Nihongo", id: "Bahasa Jepang" },
-                { jp: "すし", ro: "Sushi", id: "Sushi" },
-                { jp: "アニメ", ro: "Anime", id: "Anime" }
-            ];
-
-            const char = characters[Math.floor(Math.random() * characters.length)];
-            const topic = topics[Math.floor(Math.random() * topics.length)];
-            
-            // Bersihkan simbol ~ dari pola untuk digabung ke kalimat
-            const cleanPattern = p.label.replace('~', '');
-
-            const card = document.createElement('div');
-            card.className = 'ai-result-card';
+function closeModal() { document.getElementById('detail-modal').style.display = 'none'; }   card.className = 'ai-result-card';
             card.style.cssText = `
                 background: rgba(0,0,0,0.3);
                 border: 1px solid var(--miku-cyan);
