@@ -639,45 +639,57 @@ function generateFreshSentence() {
         </div>
     `;
 }
-
 function renderSidebar() {
     const sidebarNav = document.getElementById('chapter-list');
-    
-    // Jangan hapus menu [AI] POLA GENERATOR yang sudah ada
-    const specialNav = sidebarNav.querySelector('.special-nav');
-    const hr = sidebarNav.querySelector('hr');
-    
-    sidebarNav.innerHTML = ''; // Bersihkan dulu
-    
-    // Masukkan kembali menu spesial jika tadi terhapus
-    if(specialNav) sidebarNav.appendChild(specialNav);
-    if(hr) sidebarNav.appendChild(hr);
+    if (!sidebarNav) return; // Keamanan jika elemen tidak ditemukan
 
-    // Loop data dari grammar_data.js (Bab 1 sampai 25)
+    // 1. Bersihkan Sidebar
+    sidebarNav.innerHTML = '';
+
+    // 2. Tambahkan kembali Tombol Generator AI (Wajib ada di paling atas)
+    const genNav = document.createElement('div');
+    genNav.className = 'chapter-item special-nav';
+    genNav.style.marginBottom = "10px";
+    genNav.onclick = () => showPage('generator');
+    genNav.innerHTML = `<span style="color:var(--miku-pink)">[AI]</span> POLA GENERATOR`;
+    sidebarNav.appendChild(genNav);
+
+    // 3. Tambahkan Garis Pembatas
+    const hr = document.createElement('hr');
+    hr.style.border = "0.5px solid #222";
+    hr.style.margin = "10px 0";
+    sidebarNav.appendChild(hr);
+
+    // 4. Generate Daftar Bab 1 - 25
     for (let i = 1; i <= 25; i++) {
         const chapterDiv = document.createElement('div');
         chapterDiv.className = 'chapter-item';
         
-        // Ambil judul dari database jika ada, kalau tidak pakai default
-        const title = grammarData['bab' + i] ? grammarData['bab' + i].title : `CHAPTER_${i}`;
+        // Cek apakah data Bab ada di grammar_data.js
+        const babData = grammarData['bab' + i];
+        const title = babData ? babData.title : `CHAPTER_${i}`;
         
         chapterDiv.innerHTML = `
             <span class="ch-num">${i < 10 ? '0' + i : i}</span>
             <span class="ch-title">${title}</span>
         `;
         
-        // Pasang event klik: Sekarang Langsung ke Pop-up!
-        chapterDiv.onclick = (e) => selectChapter(i, chapterDiv);
+        // Klik Bab -> Langsung Pop-up
+        chapterDiv.onclick = (e) => {
+            // Hapus class active dari semua bab
+            document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
+            chapterDiv.classList.add('active');
+            
+            // Panggil fungsi Pop-up
+            selectChapter(i, chapterDiv);
+        };
         
         sidebarNav.appendChild(chapterDiv);
     }
 }
 
-// Pastikan fungsi ini dipanggil saat halaman selesai dimuat
-window.onload = () => {
+// EKSEKUSI SAAT HALAMAN DIBUKA
+document.addEventListener('DOMContentLoaded', () => {
     renderSidebar();
-    // Inisialisasi swiper jika masih digunakan untuk fallback
-    if(typeof Swiper !== 'undefined') {
-        initSwiper(); 
-    }
-};
+    console.log("SARASHIKI_OS: Sidebar Rendered.");
+});
