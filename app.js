@@ -113,28 +113,7 @@ function openAIPopup(patternId) {
     generateFreshSentence();
 }
 
-function renderStaticAnalysis(p, container) {
-    let particleLogic = "Pola ini merupakan struktur perubahan kata kerja/sifat.";
-    const label = p.label.toLowerCase();
 
-    if (label.includes("ni")) particleLogic = "Partikel <span class='particle-highlight'>に (ni)</span> menunjukkan titik tujuan atau waktu spesifik.";
-    else if (label.includes("de")) particleLogic = "Partikel <span class='particle-highlight'>で (de)</span> menunjukkan tempat aksi atau sarana/alat.";
-    else if (label.includes("ga")) particleLogic = "Partikel <span class='particle-highlight'>が (ga)</span> menekan subjek atau menunjukkan keinginan/kemampuan.";
-    else if (label.includes("o") || label.includes("を")) particleLogic = "Partikel <span class='particle-highlight'>を (o)</span> menandai objek langsung dari kata kerja.";
-
-    container.innerHTML = `
-        <div class="ai-deep-dive">
-            <h3 style="color:var(--miku-cyan); font-family:Orbitron; border-bottom:1px solid #333; padding-bottom:5px;">${p.label}</h3>
-            <div class="particle-analysis" style="margin-top:15px; background:rgba(57,197,187,0.05); padding:12px; border-left:3px solid var(--miku-cyan);">
-                <strong style="color:var(--miku-cyan); font-size:0.7rem;">[PARTICLE_LOGIC_ANALYSIS]</strong>
-                <p style="font-size:0.85rem; margin-top:5px;">${particleLogic}</p>
-            </div>
-            <div style="margin-top:15px; font-size:0.8rem; color:#888;">
-                <span style="color:var(--miku-pink);">[RULES]:</span> ${p.rules}
-            </div>
-        </div>
-    `;
-}
 
 function generateFreshSentence() {
     const container = document.getElementById('ai-generated-container');
