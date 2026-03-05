@@ -68,41 +68,30 @@
             </header>
 
             <section id="page-generator" class="sub-page hidden">
-                <header class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div>
-                        <h2 class="glitch-text-sub" data-text="AI PATTERN LAB">AI PATTERN LAB</h2>
-                        <p id="gen-status-text" style="color: #aaa; font-size: 0.9rem;">Pilih Bab & Pola untuk menghasilkan variasi baru.</p>
-                    </div>
-                    <button onclick="toggleGeneratorMinimize()" id="btn-minimize-gen" class="btn-minimize">
-                        <span id="min-icon">[_]</span> MINIMIZE_INTERFACE
-                    </button>
-                </header>
+    <div class="gen-header-mini">
+        <h2 class="glitch-text-sub" data-text="AI PATTERN LAB">AI PATTERN LAB</h2>
+        <button onclick="toggleGeneratorMinimize()" id="btn-minimize-gen" class="btn-mini-ui">[_] MINIMIZE</button>
+    </div>
 
-                <div id="generator-main-ui">
-                    <div class="generator-controls" style="background: rgba(255,255,255,0.03); padding: 20px; border: 1px solid #333; border-radius: 8px; margin-bottom: 25px;">
-                        
-                        <div class="control-group" style="display: flex; gap: 10px; margin-bottom: 15px;">
-                            <select id="select-bab-gen" onchange="checkPatternCount()" style="flex: 1; background: #000; color: var(--miku-cyan); border: 1px solid var(--miku-cyan); padding: 10px; font-family: 'Orbitron'; outline: none;">
-                                </select>
-                            
-                            <button id="btn-advanced" onclick="toggleAdvancedOptions()" class="btn-advanced hidden">OPSI LANJUTAN [+]</button>
-                        </div>
+    <div id="generator-main-ui" class="generator-compact-box">
+        <div class="mini-controls-row">
+            <select id="select-bab-gen" onchange="checkPatternCount()" class="select-mini">
+                </select>
+            <button id="btn-advanced" onclick="toggleAdvancedOptions()" class="btn-mini-ui hidden">OPSI [+]</button>
+        </div>
 
-                        <div id="advanced-pattern-list" class="advanced-box hidden" style="background: rgba(0,0,0,0.5); border: 1px dashed #444; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
-                            <p style="font-size:0.75rem; color:var(--miku-pink); margin-bottom:10px; font-family: 'Orbitron';">PILIH_POLA_SPESIFIK:</p>
-                            <div id="checkbox-container" class="checkbox-grid">
-                                </div>
-                        </div>
+        <div id="advanced-pattern-list" class="advanced-box-mini hidden">
+            <p class="label-mini">PILIH_POLA:</p>
+            <div id="checkbox-container" class="checkbox-grid-mini"></div>
+        </div>
 
-                        <button onclick="generateNewBatch()" class="btn-ai-gen-large" style="width: 100%; padding: 15px; background: var(--miku-cyan); color: #000; font-family: 'Orbitron'; font-weight: bold; border: none; cursor: pointer; text-transform: uppercase;">
-                            GENERATE POLA BARU
-                        </button>
+        <button onclick="generateNewBatch()" class="btn-gen-action">
+            GENERATE_NEW_PATTERN
+        </button>
+    </div>
 
-                    </div>
-                </div>
-
-                <div id="ai-result-grid" class="result-grid"></div>
-            </section>
+    <div id="ai-result-grid" class="result-grid-mini"></div>
+</section>
 
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper" id="pattern-slider">
