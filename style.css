@@ -1,0 +1,72 @@
+:root {
+    --miku-cyan: #39C5BB;
+    --miku-pink: #FF1493;
+    --dark-bg: #0a0e14;
+    --card-bg: #161b22;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: #e6edf3;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Parallax Header */
+.parallax-header {
+    height: 300px;
+    background: linear-gradient(rgba(10,14,20,0.7), rgba(10,14,20,0.7)), 
+                url('https://images8.alphacoders.com/605/605333.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid var(--miku-cyan);
+}
+
+/* LED Font Effect */
+.led-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: var(--miku-cyan);
+    text-shadow: 0 0 5px var(--miku-cyan), 0 0 20px var(--miku-cyan), 0 0 40px #208d85;
+    animation: flicker 2s infinite;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 22%, 24%, 55% { opacity: 0.5; }
+}
+
+/* Layout */
+.app-wrapper { display: flex; min-height: 100vh; }
+
+.chapter-sidebar {
+    width: 280px;
+    background: #0d1117;
+    border-right: 1px solid var(--miku-cyan);
+    padding: 20px;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.chapter-btn {
+    display: block; width: 100%; padding: 12px; margin-bottom: 8px;
+    background: transparent; border: 1px solid #30363d;
+    color: #fff; text-align: left; cursor: pointer; transition: 0.3s;
+    border-radius: 5px;
+}
+
+.chapter-btn:hover, .chapter-btn.active {
+    background: rgba(57, 197, 187, 0.2);
+    border-color: var(--miku-cyan);
+    box-shadow: 0 0 10px var(--miku-cyan);
+}
+
+/* Status Badges */
+.badge { font-size: 10px; padding: 2px 6px; border-radius: 10px; margin-left: 5px; }
+.badge-read { background: #238636; }
+.badge-memorized { background: #FFD700; color: #000; }
