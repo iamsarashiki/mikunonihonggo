@@ -193,3 +193,112 @@ function populateBabSelect() {
 function closeModal() {
     document.getElementById('detail-modal').style.display = 'none';
 }
+
+
+
+// ==========================================
+// MODUL GENERATOR LAB (Fungsi Eksekusi)
+// ==========================================
+
+// 1. Cek jumlah pola saat Bab dipilih di Generator
+function checkPatternCount() {
+    const babId = document.getElementById('select-bab-gen').value;
+    const btnAdvanced = document.getElementById('btn-advanced');
+    const advBox = document.getElementById('advanced-pattern-list');
+    const checkboxContainer = document.getElementById('checkbox-container');
+    
+    // Reset tampilan
+    btnAdvanced.classList.add('hidden');
+    advBox.classList.add('hidden');
+    checkboxContainer.innerHTML = '';
+
+    if (!babId || !grammarData['bab' + babId]) return;
+
+    const patterns = grammarData['bab' + babId].patterns;
+
+    // Jika pola lebih dari 1, munculkan tombol Opsi Lanjutan
+    if (patterns.length > 1) {
+        btnAdvanced.classList.remove('hidden');
+        
+        // Isi checkbox untuk pilihan spesifik
+        patterns.forEach(p => {
+            const label = document.createElement('label');
+            label.style.display = 'flex';
+            label.style.alignItems = 'center';
+            label.style.gap = '8px';
+            label.style.fontSize = '0.7rem';
+            label.style.color = '#fff';
+            
+            label.innerHTML = `
+                <input type="checkbox" value="${p.id}" class="pattern-checkbox" checked>
+                ${p.label}
+            `;
+            checkboxContainer.appendChild(label);
+        });
+    }
+}
+
+// 2. Toggle Buka/Tutup Opsi Lanjutan
+function toggleAdvancedOptions() {
+    const advBox = document.getElementById('advanced-pattern-list');
+    advBox.classList.toggle('hidden');
+}
+
+// 3. Eksekusi Generate Banyak Pola (Main Feature)
+function generateNewBatch() {
+    const babId = document.getElementById('select-bab-gen').value;
+    const resultGrid = document.getElementById('ai-result-grid');
+    const statusText = document.getElementById('gen-status-text');
+
+    if (!babId) {
+        alert("Pilih Bab terlebih dahulu, Sarashiki!");
+        return;
+    }
+
+    // Ambil pola yang dicentang saja
+    const selectedCheckboxes = document.querySelectorAll('.pattern-checkbox:checked');
+    let selectedPatternIds = Array.from(selectedCheckboxes).map(cb => cb.value);
+
+    // Jika tidak ada yang dicentang (atau opsi lanjutan tertutup), ambil semua pola di bab itu
+    if (selectedPatternIds.length === 0) {
+        selectedPatternIds = grammarData['bab' + babId].patterns.map(p => p.id);
+    }
+
+    // Efek Loading
+    statusText.innerText = "GENERATING_VIRTUAL_CONTEXT...";
+    resultGrid.innerHTML = '<div class="loading-spinner">PROCESSING...</div>';
+
+    setTimeout(() => {
+        resultGrid.innerHTML = ''; // Bersihkan loading
+        
+        selectedPatternIds.forEach(id => {
+            const p = grammarData['bab' + babId].patterns.find(item => item.id === id);
+            if (!p) return;
+
+            // Logika kalimat acak
+            const subs = ["Miku", "Rizal", "Afif", "Ragil", "Sensei"];
+            const s = subs[Math.floor(Math.random() * subs.length)];
+            
+            const card = document.createElement('div');
+            card.className = 'ai-result-card';
+            card.style.cssText = `
+                background: rgba(255,255,255,0.03);
+                border: 1px solid #333;
+                padding: 15px;
+                border-radius: 5px;
+                animation: fadeIn 0.5s ease;
+            `;
+
+            card.innerHTML = `
+                <div style="color:var(--miku-cyan); font-family:Orbitron; font-size:0.8rem; margin-bottom:10px;">[${p.label}]</div>
+                <p style="font-weight:bold; color:#fff; margin-bottom:5px;">${s} wa ${p.label.replace('~', '')} koto ga dekimasu.</p>
+                <p style="font-size:0.75rem; color:#888; font-style:italic;">"Generated Example for ${p.id}"</p>
+                <button onclick="openAIPopup('${p.id}')" style="margin-top:10px; background:none; border:1px solid var(--miku-pink); color:var(--miku-pink); font-size:0.6rem; padding:3px 8px; cursor:pointer;">DEEP_ANALYZE</button>
+            `;
+            
+            resultGrid.appendChild(card);
+        });
+
+        statusText.innerText = `Berhasil generate ${selectedPatternIds.length} pola baru.`;
+    }, 800);
+}
