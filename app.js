@@ -133,3 +133,84 @@ function typeWriterEffect(element, text) {
 function closeModal() {
     document.getElementById('detail-modal').style.display = 'none';
 }
+
+
+
+
+
+// 1. Fungsi Navigasi Halaman
+function showPage(pageId) {
+    document.querySelectorAll('.sub-page, .swiper').forEach(el => el.classList.add('hidden'));
+    
+    if (pageId === 'generator') {
+        document.getElementById('page-generator').classList.remove('hidden');
+        populateBabSelect();
+    } else {
+        document.querySelector('.swiper').classList.remove('hidden');
+    }
+}
+
+// 2. Isi Dropdown Bab
+function populateBabSelect() {
+    const select = document.getElementById('select-bab-gen');
+    if (select.children.length > 0) return;
+    
+    for (let i = 1; i <= 25; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.innerText = `DATABASE BAB ${i}`;
+        select.appendChild(opt);
+    }
+}
+
+// 3. Fungsi Utama: Olah Data Website ke Pola Baru
+function generateNewBatch() {
+    const babNum = document.getElementById('select-bab-gen').value;
+    const grid = document.getElementById('ai-result-grid');
+    const sourceData = grammarData['bab' + babNum];
+
+    if (!sourceData) return alert("SYSTEM: Data Bab belum ter-sinkronisasi.");
+
+    grid.innerHTML = '<p style="color:var(--miku-cyan)">PROCESSING_ALGORITHM... Please Wait.</p>';
+
+    // Simulasi AI sedang mengolah data website
+    setTimeout(() => {
+        grid.innerHTML = '';
+        
+        // Ambil setiap pola dari data asli, lalu olah
+        sourceData.patterns.forEach(p => {
+            const newVariation = createAIVariation(p);
+            
+            const card = document.createElement('div');
+            card.className = 'ai-card';
+            card.innerHTML = `
+                <div style="font-size: 0.6rem; color: var(--miku-pink); font-family: Orbitron; margin-bottom: 10px;">[AI_RECONSTRUCTED_FROM_BAB_${babNum}]</div>
+                <h4 style="color:var(--miku-cyan); margin-bottom:10px;">${p.label} (New Context)</h4>
+                <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom:15px;">${newVariation.explanation}</p>
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 4px;">
+                    <p style="font-weight: bold; color: #fff;">${newVariation.japanese}</p>
+                    <p style="font-size: 0.8rem; color: #888;">${newVariation.indonesia}</p>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        
+        document.getElementById('now-playing').innerText = `AI_GEN: ${sourceData.title} processed.`;
+    }, 1200);
+}
+
+// 4. Algoritma Variasi Kalimat
+function createAIVariation(pattern) {
+    const subjects = ["Miku", "Rizal-san", "Afif-san", "Sensei", "Kareshi"];
+    const actions = ["Tokyo e iku", "Sushi o taberu", "Nihongo o benkyou suru", "Uta o utau"];
+    
+    const s = subjects[Math.floor(Math.random() * subjects.length)];
+    const a = actions[Math.floor(Math.random() * actions.length)];
+    
+    // Logika pengolahan data mentah ke pola baru
+    return {
+        explanation: `Dalam konteks baru ini, ${pattern.label} digunakan oleh AI untuk memberikan penekanan pada aktivitas ${s}.`,
+        japanese: `${s} wa ${a} ${pattern.label.includes('n desu') ? 'n desu' : 'koto ga dekimasu'}.`,
+        indonesia: `(AI) ${s} benar-benar akan ${a.toLowerCase()} menggunakan pola ini.`
+    };
+}
