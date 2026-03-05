@@ -1,272 +1,141 @@
-let swiperInstance = null;
+// ==========================================
+// SARASHIKI_OS: CORE LOGIC v2.5
+// ==========================================
 
-// 1. Render Daftar Bab 1-25
-function initSidebar() {
-    const list = document.getElementById('chapter-list');
+// 1. INISIALISASI SISTEM (SAAT HALAMAN DIMUAT)
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("SARASHIKI_SYSTEM: Booting...");
+    renderSidebar();      // Munculkan daftar Bab di Sidebar
+    populateBabSelect();  // Isi dropdown di halaman Generator
+    
+    // Inisialisasi Swiper (Jika masih ingin ada slider di home)
+    if (typeof Swiper !== 'undefined') {
+        const swiper = new Swiper(".mySwiper", {
+            pagination: { el: ".swiper-pagination", clickable: true },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+        });
+    }
+});
+
+// 2. FUNGSI RENDER SIDEBAR (MEMUNCULKAN DAFTAR BAB)
+function renderSidebar() {
+    const sidebarNav = document.getElementById('chapter-list');
+    if (!sidebarNav) return;
+
+    sidebarNav.innerHTML = ''; // Bersihkan sidebar
+
+    // Tombol Khusus: POLA GENERATOR
+    const genNav = document.createElement('div');
+    genNav.className = 'chapter-item special-nav';
+    genNav.innerHTML = `<span style="color:var(--miku-pink)">[AI]</span> POLA GENERATOR`;
+    genNav.onclick = () => showPage('generator');
+    sidebarNav.appendChild(genNav);
+
+    // Garis Pembatas
+    const hr = document.createElement('hr');
+    hr.style.border = "0.5px solid #222";
+    hr.style.margin = "10px 0";
+    sidebarNav.appendChild(hr);
+
+    // Render Bab 1 - 25 dari grammar_data.js
     for (let i = 1; i <= 25; i++) {
-        const item = document.createElement('div');
-        item.className = 'chapter-item';
-        item.innerText = `BAB ${i}: ${grammarData['bab' + i]?.title.split(':')[1] || 'Materi'}`;
-        item.onclick = () => selectChapter(i, item);
-        list.appendChild(item);
+        const babKey = 'bab' + i;
+        const babData = typeof grammarData !== 'undefined' ? grammarData[babKey] : null;
+        
+        const chapterDiv = document.createElement('div');
+        chapterDiv.className = 'chapter-item';
+        
+        const title = babData ? babData.title : `CHAPTER ${i}`;
+        
+        chapterDiv.innerHTML = `
+            <span class="ch-num">${i < 10 ? '0' + i : i}</span>
+            <span class="ch-title">${title}</span>
+        `;
+        
+        // KLIK BAB -> LANGSUNG POP-UP
+        chapterDiv.onclick = () => {
+            document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
+            chapterDiv.classList.add('active');
+            selectChapter(i); // Trigger Pop-up
+        };
+        
+        sidebarNav.appendChild(chapterDiv);
     }
 }
 
-function selectChapter(num, element) {
-    // 1. Visual Feedback pada Sidebar
-    document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
-    element.classList.add('active');
-
+// 3. FUNGSI POP-UP OTOMATIS SAAT BAB DIKLIK
+function selectChapter(num) {
     const data = grammarData['bab' + num];
     const modal = document.getElementById('detail-modal');
     const response = document.getElementById('ai-response');
-    const genContainer = document.getElementById('ai-generated-container');
     const loading = document.getElementById('ai-loading');
 
     if (!data) return;
 
-    // 2. Tampilkan Modal & Reset Konten
     modal.style.display = 'flex';
     loading.classList.remove('hidden');
     response.innerHTML = '';
-    genContainer.innerHTML = '';
+    document.getElementById('ai-generated-container').innerHTML = '';
 
-    // 3. Render Daftar Pola ke dalam Modal
     setTimeout(() => {
         loading.classList.add('hidden');
         
-        // Header Bab di dalam Modal
         let htmlContent = `
             <div class="modal-bab-header">
-                <h3 style="color:var(--miku-cyan); font-family:Orbitron;">CHAPTER_${num}: ${data.title}</h3>
-                <p style="font-size:0.8rem; color:#888; margin-bottom:15px;">Ditemukan ${data.patterns.length} pola tata bahasa.</p>
+                <h3 style="color:var(--miku-cyan); font-family:Orbitron; margin-bottom:5px;">CHAPTER_${num}: ${data.title}</h3>
+                <p style="font-size:0.7rem; color:#666;">DATABASE_SYNC_SUCCESSFUL // ${data.patterns.length} PATTERNS</p>
             </div>
-            <div class="modal-pattern-grid" style="display:grid; gap:10px;">
+            <div class="modal-pattern-grid" style="display:grid; gap:10px; margin-top:20px;">
         `;
 
-        // List Pola sebagai Tombol di dalam Modal
         data.patterns.forEach(p => {
             htmlContent += `
-                <button onclick="openAIPopup('${p.id}')" class="btn-ai-gen" style="text-align:left; width:100%; padding:12px;">
-                    <span style="color:var(--miku-pink)">[POLA]</span> ${p.label}
-                    <div style="font-size:0.7rem; color:#aaa; font-family:Rajdhani; margin-top:4px;">${p.desc}</div>
+                <button onclick="openAIPopup('${p.id}')" class="btn-ai-gen" style="text-align:left; width:100%; padding:12px; border:1px solid #333; background:rgba(255,255,255,0.02);">
+                    <span style="color:var(--miku-pink); font-size:0.7rem;">[ANALYZE]</span> 
+                    <span style="margin-left:10px; color:#fff;">${p.label}</span>
                 </button>
             `;
         });
 
         htmlContent += `</div>`;
         response.innerHTML = htmlContent;
-
-        // Update status di player bawah
-        document.getElementById('now-playing').innerText = `SYSTEM: Accessing Chapter ${num}...`;
     }, 600);
 }
 
-        // Re-init Swiper
-        if (swiperInstance) swiperInstance.destroy();
-        swiperInstance = new Swiper(".mySwiper", {
-            effect: "coverflow",
-            grabCursor: true,
-            centeredSlides: true,
-            slidesPerView: "auto",
-            coverflowEffect: { rotate: 30, stretch: 0, depth: 100, modifier: 1, slideShadows: false },
-            pagination: { el: ".swiper-pagination", clickable: true }
-        });
+// 4. FUNGSI NAVIGASI HALAMAN (GENERATOR VS HOME)
+function showPage(pageId) {
+    const genPage = document.getElementById('page-generator');
+    const mainSwiper = document.querySelector('.mySwiper');
 
-        // Feedback Audio Palsu
-        document.getElementById('now-playing').innerText = `SYNCING: ${data.title}...`;
+    if (pageId === 'generator') {
+        genPage.classList.remove('hidden');
+        mainSwiper.classList.add('hidden');
+        populateBabSelect();
+    } else {
+        genPage.classList.add('hidden');
+        mainSwiper.classList.remove('hidden');
     }
 }
 
-// Init App
-window.onload = () => {
-    initSidebar();
-    // Simulasi Progress Bar
-    setInterval(() => {
-        const fill = document.getElementById('progress-bar');
-        let w = parseInt(fill.style.width) || 30;
-        fill.style.width = (w >= 100 ? 0 : w + 0.5) + "%";
-    }, 100);
-};
+// 5. ISI DROPDOWN GENERATOR
+function populateBabSelect() {
+    const select = document.getElementById('select-bab-gen');
+    if (!select || select.options.length > 0) return;
 
-function exportData() {
-    alert("SYSTEM: Data N4 Protocol disalin ke Clipboard!");
-}
-// Fungsi untuk membuka Detail Data
-function openDeepDive(id) {
-    const modal = document.getElementById('detail-modal');
-    const responseContainer = document.getElementById('ai-response');
-    const loading = document.getElementById('ai-loading');
-    
-    // Cari data berdasarkan ID
-    let selectedPattern = null;
-    for (let key in grammarData) {
-        selectedPattern = grammarData[key].patterns.find(p => p.id === id);
-        if (selectedPattern) break;
+    for (let i = 1; i <= 25; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `BAB ${i} - ${grammarData['bab' + i]?.title || ''}`;
+        select.appendChild(option);
     }
-
-    if (!selectedPattern) return;
-
-    modal.style.display = 'flex';
-    responseContainer.innerHTML = '';
-    loading.classList.remove('hidden');
-
-    // Simulasi AI Berpikir
-    setTimeout(() => {
-        loading.classList.add('hidden');
-        
-        // Teks penjelasan yang akan di-"ketik" oleh AI
-        const fullAnalysis = `
-            [SYSTEM_REPORT]: Pola ${selectedPattern.label} terdeteksi.<br><br>
-            <strong>PENGGUNAAN:</strong> ${selectedPattern.usage}<br>
-            <strong>STRUKTUR:</strong> ${selectedPattern.rules}<br><br>
-            <strong>ANALISIS_AI:</strong><br>
-            Pola ini sangat krusial untuk level N4. Dalam konteks percakapan di Jepang, gunakan pola ini untuk ${selectedPattern.desc.toLowerCase()}. <br><br>
-            <strong>CONTOH_KALIMAT:</strong><br>
-            1. ${selectedPattern.examples[0].jp}<br>
-            (${selectedPattern.examples[0].id})<br><br>
-            <em>Catatan Sarashiki: Pastikan intonasi tepat agar terdengar natural bagi penutur asli.</em>
-        `;
-
-        typeWriterEffect(responseContainer, fullAnalysis);
-    }, 1200);
 }
 
-// Fungsi Efek Mengetik AI
-function typeWriterEffect(element, text) {
-    let i = 0;
-    element.innerHTML = "";
-    
-    function typing() {
-        if (i < text.length) {
-            // Jika bertemu tag HTML, lompat ke akhir tag
-            if (text.charAt(i) === '<') {
-                i = text.indexOf('>', i) + 1;
-            } else {
-                i++;
-            }
-            element.innerHTML = text.substring(0, i);
-            setTimeout(typing, 5); // Kecepatan mengetik
-        }
-    }
-    typing();
-}
-
+// 6. FUNGSI CLOSE MODAL
 function closeModal() {
     document.getElementById('detail-modal').style.display = 'none';
 }
 
-
-
-
-
-// 1. Fungsi Navigasi Halaman
-function showPage(pageId) {
-    document.querySelectorAll('.sub-page, .swiper').forEach(el => el.classList.add('hidden'));
-    
-    if (pageId === 'generator') {
-        document.getElementById('page-generator').classList.remove('hidden');
-        populateBabSelect();
-    } else {
-        document.querySelector('.swiper').classList.remove('hidden');
-    }
-}
-
-// 2. Isi Dropdown Bab
-function populateBabSelect() {
-    const select = document.getElementById('select-bab-gen');
-    if (select.children.length > 0) return;
-    
-    for (let i = 1; i <= 25; i++) {
-        const opt = document.createElement('option');
-        opt.value = i;
-        opt.innerText = `DATABASE BAB ${i}`;
-        select.appendChild(opt);
-    }
-}
-
-// 3. Fungsi Utama: Olah Data Website ke Pola Baru
-function generateNewBatch() {
-    const babNum = document.getElementById('select-bab-gen').value;
-    const grid = document.getElementById('ai-result-grid');
-    const sourceData = grammarData['bab' + babNum];
-
-    if (!sourceData) return alert("SYSTEM: Data Bab belum ter-sinkronisasi.");
-
-    grid.innerHTML = '<p style="color:var(--miku-cyan)">PROCESSING_ALGORITHM... Please Wait.</p>';
-
-    // Simulasi AI sedang mengolah data website
-    setTimeout(() => {
-        grid.innerHTML = '';
-        
-        // Ambil setiap pola dari data asli, lalu olah
-        sourceData.patterns.forEach(p => {
-            const newVariation = createAIVariation(p);
-            
-            const card = document.createElement('div');
-            card.className = 'ai-card';
-            card.innerHTML = `
-                <div style="font-size: 0.6rem; color: var(--miku-pink); font-family: Orbitron; margin-bottom: 10px;">[AI_RECONSTRUCTED_FROM_BAB_${babNum}]</div>
-                <h4 style="color:var(--miku-cyan); margin-bottom:10px;">${p.label} (New Context)</h4>
-                <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom:15px;">${newVariation.explanation}</p>
-                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 4px;">
-                    <p style="font-weight: bold; color: #fff;">${newVariation.japanese}</p>
-                    <p style="font-size: 0.8rem; color: #888;">${newVariation.indonesia}</p>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-        
-        document.getElementById('now-playing').innerText = `AI_GEN: ${sourceData.title} processed.`;
-    }, 1200);
-}
-
-// 4. Algoritma Variasi Kalimat
-function createAIVariation(pattern) {
-    const subjects = ["Miku", "Rizal-san", "Afif-san", "Sensei", "Kareshi"];
-    const actions = ["Tokyo e iku", "Sushi o taberu", "Nihongo o benkyou suru", "Uta o utau"];
-    
-    const s = subjects[Math.floor(Math.random() * subjects.length)];
-    const a = actions[Math.floor(Math.random() * actions.length)];
-    
-    // Logika pengolahan data mentah ke pola baru
-    return {
-        explanation: `Dalam konteks baru ini, ${pattern.label} digunakan oleh AI untuk memberikan penekanan pada aktivitas ${s}.`,
-        japanese: `${s} wa ${a} ${pattern.label.includes('n desu') ? 'n desu' : 'koto ga dekimasu'}.`,
-        indonesia: `(AI) ${s} benar-benar akan ${a.toLowerCase()} menggunakan pola ini.`
-    };
-}
-
-
-
-// 1. Fungsi Utama di Halaman Generator
-function generateNewBatch() {
-    const babNum = document.getElementById('select-bab-gen').value;
-    const grid = document.getElementById('ai-result-grid');
-    const sourceData = grammarData['bab' + babNum];
-
-    if (!sourceData) return;
-
-    grid.innerHTML = '<p class="blink">PROCESSING_ALGORITHM...</p>';
-
-    setTimeout(() => {
-        grid.innerHTML = '';
-        sourceData.patterns.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'ai-card';
-            card.innerHTML = `
-                <div style="font-size: 0.6rem; color: var(--miku-pink); font-family: Orbitron;">[SOURCE: BAB_${babNum}]</div>
-                <h4 style="color:var(--miku-cyan); margin: 10px 0;">${p.label}</h4>
-                <button onclick="openAIPopup('${p.id}')" class="btn-ai-gen" style="width:100%">ANALYZE_STRUCTURE [AI]</button>
-            `;
-            grid.appendChild(card);
-        });
-    }, 800);
-}
-
-// 2. Fungsi Pop-up Analisis Mendalam
-function openAIPopup(patternId) {
-    const modal = document.getElementById('detail-modal');
+// Tambahkan sisa fungsi generator kamu (checkPatternCount, toggleAdvancedOptions, dll) di bawah sini...mentById('detail-modal');
     const response = document.getElementById('ai-response');
     const loading = document.getElementById('ai-loading');
     
