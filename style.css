@@ -117,3 +117,63 @@ body {
 @keyframes blinker { 50% { opacity: 0; } }
 
 .hidden { display: none; }
+
+/* Container Tombol Aksi di Kartu */
+.card-actions {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 20;
+}
+
+/* Tombol Checklist */
+.check-btn {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    color: #444;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+/* Keadaan Aktif (Sudah Mengerti) */
+.check-btn.active {
+    border-color: #00ff88;
+    color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+}
+
+/* Label Status di Kartu */
+.understood-label {
+    position: absolute;
+    bottom: 80px;
+    right: -30px;
+    background: #00ff88;
+    color: black;
+    font-family: 'Orbitron';
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding: 2px 30px;
+    transform: rotate(-45deg);
+    display: none; /* Default sembunyi */
+    box-shadow: 0 0 10px #00ff88;
+}
+
+/* Jika kartu ditandai selesai */
+.swiper-slide.is-understood {
+    border-color: #00ff88 !important;
+}
+
+.swiper-slide.is-understood .understood-label {
+    display: block;
+}
