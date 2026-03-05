@@ -456,3 +456,313 @@ Object.assign(grammarData, {
         ]
     }
 });
+Object.assign(grammarData, {
+    "bab15": {
+        title: "Bab 15: Izin & Status (Te mo ii / Te wa ikemasen)",
+        patterns: [
+            {
+                id: "15.1",
+                label: "KK-te mo ii desu ka",
+                desc: "Meminta izin (Bolehkah saya...?).",
+                rules: "KK Bentuk TE + もいいです (mo ii desu).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "ここで写真を撮ってもいいですか。", id: "Bolehkah mengambil foto di sini?" }
+                ]
+            },
+            {
+                id: "15.2",
+                label: "KK-te wa ikemasen",
+                desc: "Larangan (Tidak boleh... / Dilarang...).",
+                rules: "KK Bentuk TE + は いけません (wa ikemasen).",
+                usage: "Sopan tapi tegas (Instruksi/Aturan).",
+                examples: [
+                    { jp: "ここでタバコを吸ってはいけません。", id: "Tidak boleh merokok di sini." }
+                ]
+            },
+            {
+                id: "15.3",
+                label: "KK-te imasu (Status/Pekerjaan)",
+                desc: "Menyatakan keadaan yang menetap atau kebiasaan.",
+                rules: "Digunakan untuk: Tempat tinggal (Sunde imasu), Menikah (Kekkon shite imasu), Mengenal (Shitte imasu).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "私は大阪に住んでいます。", id: "Saya tinggal di Osaka." },
+                    { jp: "ミラーさんはIMCで働いています。", id: "Sdr. Miller bekerja di IMC." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab16": {
+        title: "Bab 16: Menyambung Kalimat (Te-form Connection)",
+        patterns: [
+            {
+                id: "16.1",
+                label: "KK1-te, KK2-te, KK3-masu",
+                desc: "Urutan kegiatan yang dilakukan berurutan.",
+                rules: "Kata kerja sebelumnya diubah ke bentuk TE, kata kerja terakhir menentukan waktu (Lampau/Tidak).",
+                usage: "Narasi kegiatan.",
+                examples: [
+                    { jp: "朝起きて、シャワーを浴びて、学校へ行きます。", id: "Pagi bangun, mandi, lalu pergi ke sekolah." }
+                ]
+            },
+            {
+                id: "16.2",
+                label: "KS-i (~kute) / KS-na (~de) / KB (~de)",
+                desc: "Menyambung dua atau lebih kata sifat/kata benda.",
+                rules: "I-adj: hapus 'i' ganti 'kute'. Na-adj/KB: tambah 'de'.",
+                usage: "Deskripsi.",
+                examples: [
+                    { jp: "この部屋は広くて、明るいです。", id: "Kamar ini luas dan terang." },
+                    { jp: "ミラーさんは若くて、親切です。", id: "Sdr. Miller muda dan ramah." }
+                ]
+            },
+            {
+                id: "16.3",
+                label: "KK1-te kara, KK2-masu",
+                desc: "Setelah melakukan KK1, baru melakukan KK2.",
+                rules: "Menekankan urutan waktu yang pasti.",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "仕事が終わってから、飲みに行きましょう。", id: "Setelah pekerjaan selesai, mari pergi minum." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab17": {
+        title: "Bab 17: Bentuk NAI (Larangan & Keharusan)",
+        patterns: [
+            {
+                id: "17.1",
+                label: "KK-nai de kudasai",
+                desc: "Tolong jangan... (Larangan halus).",
+                rules: "KK Bentuk NAI + でください (de kudasai).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "ここで写真を撮らないでください。", id: "Tolong jangan ambil foto di sini." }
+                ]
+            },
+            {
+                id: "17.2",
+                label: "KK-nakereba narimasen",
+                desc: "Harus melakukan sesuatu.",
+                rules: "KK Bentuk NAI (hapus 'i') + ければなりません (kereba narimasen).",
+                usage: "Kewajiban/Sopan.",
+                examples: [
+                    { jp: "薬を飲まなければなりません。", id: "Harus minum obat." }
+                ]
+            },
+            {
+                id: "17.3",
+                label: "KK-nakute mo ii desu",
+                desc: "Tidak harus / Tidak perlu melakukan sesuatu.",
+                rules: "KK Bentuk NAI (hapus 'i') + くてもいいです (kute mo ii desu).",
+                usage: "Pemberian kelonggaran.",
+                examples: [
+                    { jp: "明日は来なくてもいいです。", id: "Besok tidak perlu datang juga tidak apa-apa." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab18": {
+        title: "Bab 18: Bentuk Kamus (Kemampuan & Hobi)",
+        patterns: [
+            {
+                id: "18.1",
+                label: "KK (Jishokei) koto ga dekimasu",
+                desc: "Menyatakan kemampuan melakukan sesuatu.",
+                rules: "KK Jishokei + こと (koto) + ができます (ga dekimasu).",
+                usage: "Sopan. 'Koto' mengubah kata kerja menjadi kata benda.",
+                examples: [
+                    { jp: "ミラーさんは漢字を読むことができます。", id: "Sdr. Miller bisa membaca kanji." },
+                    { jp: "カードで払うことができます。", id: "Bisa membayar dengan kartu." }
+                ]
+            },
+            {
+                id: "18.2",
+                label: "Watashi no shumi wa KK (Jishokei) koto desu",
+                desc: "Menyatakan hobi/kegemaran.",
+                rules: "Subjek + は + KK Jishokei + ことです (koto desu).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "私の趣味は音楽を聞くことです。", id: "Hobi saya adalah mendengarkan musik." }
+                ]
+            },
+            {
+                id: "18.3",
+                label: "KK1 (Jishokei) mae ni, KK2",
+                desc: "Melakukan KK1 sebelum KK2.",
+                rules: "KK1 Jishokei + まえに (mae ni) + KK2.",
+                usage: "Urutan waktu.",
+                examples: [
+                    { jp: "寝る前に、日記を書きます。", id: "Sebelum tidur, menulis buku harian." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab19": {
+        title: "Bab 19: Bentuk TA (Pengalaman & Saran)",
+        patterns: [
+            {
+                id: "19.1",
+                label: "KK-ta koto ga arimasu",
+                desc: "Menyatakan pengalaman (Pernah...).",
+                rules: "KK Bentuk TA + ことがあります (koto ga arimasu).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "北海道へ行ったことがあります。", id: "Pernah pergi ke Hokkaido." },
+                    { jp: "馬に乗ったことがあります。", id: "Pernah naik kuda." }
+                ]
+            },
+            {
+                id: "19.2",
+                label: "KK1-tari, KK2-tari shimasu",
+                desc: "Menyebutkan beberapa kegiatan secara acak (Tidak berurutan).",
+                rules: "KK1-ta(ri) + KK2-ta(ri) + します (shimasu).",
+                usage: "Berbeda dengan 'Te, Te' (berurutan), Tari-tari tidak harus urut.",
+                examples: [
+                    { jp: "日曜日はテニスをしたり、買い物をしたりします。", id: "Hari Minggu main tenis, belanja, dsb." }
+                ]
+            },
+            {
+                id: "19.3",
+                label: "KK-ta hou ga ii desu",
+                desc: "Memberikan saran (Sebaiknya...).",
+                rules: "KK Bentuk TA + ほうがいいです (hou ga ii desu).",
+                usage: "Sopan (Memberi nasihat).",
+                examples: [
+                    { jp: "毎日運動したほうがいいです。", id: "Sebaiknya berolahraga setiap hari." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab20": {
+        title: "Bab 20: Bahasa Kasual (Futsuu-tai)",
+        patterns: [
+            {
+                id: "20.1",
+                label: "Bentuk Biasa (Futsuu-kei)",
+                desc: "Mengubah pola sopan (~masu/desu) menjadi kasual.",
+                rules: "Iku (Ikimasu), Ikanai (Ikimasen), Itta (Ikimashita), Ittanai (Ikimasendeshita).",
+                usage: "Digunakan kepada teman, keluarga, atau bawahan.",
+                examples: [
+                    { jp: "ご飯、食べる？", id: "Makan nasi? (Sopan: Tabemasu ka?)" },
+                    { jp: "明日、暇？", id: "Besok luang? (Sopan: Hima desu ka?)" }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab21": {
+        title: "Bab 21: Pendapat & Kutipan (To Omoimasu / To Iimasu)",
+        patterns: [
+            {
+                id: "21.1",
+                label: "Futsuu-kei + to omoimasu",
+                desc: "Saya rasa / Menurut saya...",
+                rules: "Gunakan Bentuk Biasa (Futsuu-kei) sebelum と思います.",
+                usage: "Menyatakan opini.",
+                examples: [
+                    { jp: "日本は物価が高いと思います。", id: "Menurut saya harga barang di Jepang mahal." }
+                ]
+            },
+            {
+                id: "21.2",
+                label: "Futsuu-kei + to iimashita",
+                desc: "Berkata bahwa... (Kutipan tidak langsung).",
+                rules: "Menyampaikan pesan orang lain.",
+                usage: "Laporan informasi.",
+                examples: [
+                    { jp: "ミラーさんは「明日休みます」と言いました。", id: "Sdr. Miller berkata 'Besok saya libur'." }
+                ]
+            }
+        ]
+    },
+    "bab22": {
+        title: "Bab 22: Kalimat Modifikasi (Meishi Shuushoku)",
+        patterns: [
+            {
+                id: "22.1",
+                label: "KK (Futsuu-kei) + Kata Benda",
+                desc: "Menjelaskan kata benda menggunakan kalimat.",
+                rules: "Kalimat penjelas diletakkan di DEPAN kata benda.",
+                usage: "Sangat penting untuk deskripsi detail.",
+                examples: [
+                    { jp: "これは私が撮った写真です。", id: "Ini adalah foto yang SAYA POTRET." },
+                    { jp: "あそこにいる人は
+                        ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab23": {
+        title: "Bab 23: Waktu Kejadian (Toki / To)",
+        patterns: [
+            {
+                id: "23.1",
+                label: "KK (Jishokei) + Toki",
+                desc: "Saat / Ketika melakukan sesuatu.",
+                rules: "Bisa digunakan untuk KK, KS, maupun KB.",
+                usage: "Keterangan waktu.",
+                examples: [
+                    { jp: "図書館で本を借りる時、カードがいります。", id: "Saat meminjam buku di perpus, butuh kartu." }
+                ]
+            }
+        ]
+    },
+    "bab24": {
+        title: "Bab 24: Pemberian Jasa (Te-agemasu / Te-moraimasu)",
+        patterns: [
+            {
+                id: "24.1",
+                label: "KK-te agemasu / moraimasu / kuremasu",
+                desc: "Melakukan sesuatu demi kebaikan orang lain.",
+                rules: "Kuremasu: Orang lain melakukan sesuatu untuk SAYA.",
+                usage: "Budaya kesopanan Jepang.",
+                examples: [
+                    { jp: "私は佐藤さんに傘を貸してあげました。", id: "Saya meminjamkan payung kepada Sdr. Sato (sebagai bantuan)." },
+                    { jp: "母は私にセーターを送ってくれました。", id: "Ibu mengirimkan sweter untuk saya." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab25": {
+        title: "Bab 25: Pengandaian (Tara / Te mo)",
+        patterns: [
+            {
+                id: "25.1",
+                label: "KK-ta + ra (Tara)",
+                desc: "Kalau... / Jika... (Kondisional).",
+                rules: "Bentuk Lampau (Ta-kei) + ら (ra).",
+                usage: "Pengandaian.",
+                examples: [
+                    { jp: "お金があったら、旅行します。", id: "Kalau punya uang, saya akan jalan-jalan." }
+                ]
+            },
+            {
+                id: "25.2",
+                label: "KK-te mo / KS-kute mo",
+                desc: "Walaupun... / Meskipun...",
+                rules: "Bentuk TE + も (mo).",
+                usage: "Kontras.",
+                examples: [
+                    { jp: "雨が降っても、出かけます。", id: "Meskipun hujan turun, saya akan pergi keluar." }
+                ]
+            }
+        ]
+    }
+});
