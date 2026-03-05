@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARASHIKI x MIKU | Music Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portfolio-style.css">
+</head>
+<body>
+
+    <div class="glitch-bg"></div>
+
+    <header class="hero">
+        <div class="miku-status-bar">STATUS: ONLINE | SYNC: 39%</div>
+        <h1 class="glitch" data-text="SARASHIKI">SARASHIKI</h1>
+        <p class="desc">Digital Music Producer & Vocaloid Enthusiast</p>
+    </header>
+
+    <main class="track-list">
+        <section class="track-card" onclick="playTrack('Track 1', 'vocaloid_01.mp3')">
+            <div class="track-num">01</div>
+            <div class="track-info">
+                <h2>Cyber Echoes</h2>
+                <span>Style: J-Pop / Metal Core</span>
+            </div>
+            <div class="play-icon">▶</div>
+        </section>
+
+        <section class="track-card" onclick="playTrack('Track 2', 'miku_ballad.mp3')">
+            <div class="track-num">02</div>
+            <div class="track-info">
+                <h2>Neon Prayer</h2>
+                <span>Style: Future Bass</span>
+            </div>
+            <div class="play-icon">▶</div>
+        </section>
+    </main>
+
+    <div id="miku-player" class="miku-player">
+        <div class="player-art">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5JmVwPXYxX2ludGVybmFsX2dpZl9ieV9iZCZjdD1z/vVzH2Li3uMJI0/giphy.gif" alt="Miku Dance">
+        </div>
+        <div class="player-controls">
+            <p id="now-playing">SELECT A TRACK</p>
+            <div class="progress-bar"><div id="progress" class="fill"></div></div>
+        </div>
+    </div>
+
+    <script src="portfolio-logic.js"></script>
+</body>
+</html>
