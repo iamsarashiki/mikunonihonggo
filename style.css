@@ -358,3 +358,40 @@ body {
 }
 
 .checkbox-item input { accent-color: var(--miku-pink); }
+
+
+
+.btn-minimize {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    color: #888;
+    font-family: 'Orbitron';
+    font-size: 0.6rem;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-minimize:hover {
+    color: var(--miku-cyan);
+    border-color: var(--miku-cyan);
+}
+
+/* State saat di-minimize */
+.is-minimized #generator-main-ui {
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-bottom: 0;
+    transform: translateY(-20px);
+}
+
+#generator-main-ui {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-bottom: 30px;
+    opacity: 1;
+}
+
+.is-minimized .result-grid {
+    margin-top: 10px;
+}
