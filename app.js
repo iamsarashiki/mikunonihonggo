@@ -69,3 +69,66 @@ window.onload = () => {
 function exportData() {
     alert("SYSTEM: Data N4 Protocol disalin ke Clipboard!");
 }
+// Fungsi untuk membuka Detail Data
+function openDeepDive(id) {
+    const modal = document.getElementById('detail-modal');
+    const responseContainer = document.getElementById('ai-response');
+    const loading = document.getElementById('ai-loading');
+    
+    // Cari data berdasarkan ID
+    let selectedPattern = null;
+    for (let key in grammarData) {
+        selectedPattern = grammarData[key].patterns.find(p => p.id === id);
+        if (selectedPattern) break;
+    }
+
+    if (!selectedPattern) return;
+
+    modal.style.display = 'flex';
+    responseContainer.innerHTML = '';
+    loading.classList.remove('hidden');
+
+    // Simulasi AI Berpikir
+    setTimeout(() => {
+        loading.classList.add('hidden');
+        
+        // Teks penjelasan yang akan di-"ketik" oleh AI
+        const fullAnalysis = `
+            [SYSTEM_REPORT]: Pola ${selectedPattern.label} terdeteksi.<br><br>
+            <strong>PENGGUNAAN:</strong> ${selectedPattern.usage}<br>
+            <strong>STRUKTUR:</strong> ${selectedPattern.rules}<br><br>
+            <strong>ANALISIS_AI:</strong><br>
+            Pola ini sangat krusial untuk level N4. Dalam konteks percakapan di Jepang, gunakan pola ini untuk ${selectedPattern.desc.toLowerCase()}. <br><br>
+            <strong>CONTOH_KALIMAT:</strong><br>
+            1. ${selectedPattern.examples[0].jp}<br>
+            (${selectedPattern.examples[0].id})<br><br>
+            <em>Catatan Sarashiki: Pastikan intonasi tepat agar terdengar natural bagi penutur asli.</em>
+        `;
+
+        typeWriterEffect(responseContainer, fullAnalysis);
+    }, 1200);
+}
+
+// Fungsi Efek Mengetik AI
+function typeWriterEffect(element, text) {
+    let i = 0;
+    element.innerHTML = "";
+    
+    function typing() {
+        if (i < text.length) {
+            // Jika bertemu tag HTML, lompat ke akhir tag
+            if (text.charAt(i) === '<') {
+                i = text.indexOf('>', i) + 1;
+            } else {
+                i++;
+            }
+            element.innerHTML = text.substring(0, i);
+            setTimeout(typing, 5); // Kecepatan mengetik
+        }
+    }
+    typing();
+}
+
+function closeModal() {
+    document.getElementById('detail-modal').style.display = 'none';
+}
