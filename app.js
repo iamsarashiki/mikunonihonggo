@@ -90,3 +90,41 @@ function updateSidebarStatus(chapterKey) {
 }
 
 // Tambahkan CSS untuk badge ini di style.css
+// Tambahkan UI untuk Export/Import di Sidebar
+const sidebar = document.querySelector('.chapter-sidebar');
+const syncDiv = document.createElement('div');
+syncDiv.style.marginTop = "20px";
+syncDiv.style.paddingTop = "15px";
+syncDiv.style.borderTop = "1px solid #333";
+
+syncDiv.innerHTML = `
+    <div style="font-size: 12px; color: var(--miku-cyan); margin-bottom: 10px; font-family: 'Orbitron';">Data Sync Protocol</div>
+    <button onclick="exportData()" class="chapter-btn" style="font-size: 11px; text-align: center;">Export Progress</button>
+    <button onclick="importData()" class="chapter-btn" style="font-size: 11px; text-align: center; border-color: var(--miku-pink);">Import Progress</button>
+`;
+sidebar.appendChild(syncDiv);
+
+// Fungsi Export
+function exportData() {
+    const dataStr = localStorage.getItem('mikuProgress');
+    if (!dataStr || dataStr === "{}") return alert("Belum ada progress untuk di-export!");
+    
+    // Copy ke clipboard
+    navigator.clipboard.writeText(dataStr).then(() => {
+        alert("Data Progress berhasil disalin! Simpan kode ini di catatan/WA untuk dipindah ke device lain.");
+    });
+}
+
+// Fungsi Import
+function importData() {
+    const code = prompt("Masukkan kode progress yang sudah kamu copy sebelumnya:");
+    if (code) {
+        try {
+            JSON.parse(code); // Validasi format
+            localStorage.setItem('mikuProgress', code);
+            location.reload(); // Refresh untuk update status
+        } catch (e) {
+            alert("Format kode tidak valid!");
+        }
+    }
+}
