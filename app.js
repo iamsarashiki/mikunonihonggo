@@ -341,3 +341,74 @@ function generateNewBatch() {
         statusText.innerText = `DATABASE_SYNC: ${selectedPatternIds.length} Pola Berhasil Dimuat.`;
     }, 1000);
 }
+
+
+// ==========================================
+// AI PARTICLE ANALYSIS ENGINE (DETAILED)
+// ==========================================
+
+function renderStaticAnalysis(p, container) {
+    let particleLogic = "";
+    const label = p.label.toLowerCase();
+
+    // Logika AI untuk menjelaskan "Kenapa pakai partikel ini?"
+    if (label.includes("ni") || label.includes("に")) {
+        particleLogic = `
+            AI mendeteksi penggunaan partikel <span class='particle-highlight'>に (ni)</span>. 
+            <strong>Alasannya:</strong> Partikel ini digunakan karena kalimat menunjukkan 
+            <em>titik tujuan</em> atau <em>waktu spesifik</em>. Dalam konteks pola <strong>${p.label}</strong>, 
+            ia berfungsi mengunci target aktivitas agar tidak tertukar dengan tempat kejadian biasa.
+        `;
+    } else if (label.includes("de") || label.includes("で")) {
+        particleLogic = `
+            AI mendeteksi penggunaan partikel <span class='particle-highlight'>で (de)</span>. 
+            <strong>Alasannya:</strong> Partikel ini dipilih karena fokus kalimat adalah pada 
+            <em>sarana, alat, atau lokasi aktif</em> terjadinya suatu kegiatan. Ini menegaskan 
+            bahwa subjek menggunakan 'sesuatu' untuk mencapai hasil dari pola <strong>${p.label}</strong>.
+        `;
+    } else if (label.includes("ga") || label.includes("が")) {
+        particleLogic = `
+            AI mendeteksi penggunaan partikel <span class='particle-highlight'>が (ga)</span>. 
+            <strong>Alasannya:</strong> Partikel ini digunakan untuk memberikan 
+            <em>penekanan pada subjek</em> atau menunjukkan <em>objek dari kata kerja statis</em> 
+            (seperti kemampuan/keinginan). Ini menjelaskan kenapa fokusnya ada pada 'siapa' atau 'apa' 
+            yang memiliki sifat <strong>${p.label}</strong>.
+        `;
+    } else if (label.includes("o") || label.includes("を")) {
+        particleLogic = `
+            AI mendeteksi penggunaan partikel <span class='particle-highlight'>を (o)</span>. 
+            <strong>Alasannya:</strong> Partikel ini wajib ada karena pola <strong>${p.label}</strong> 
+            melibatkan <em>objek langsung</em> yang menerima tindakan. Tanpa partikel ini, 
+            hubungan antara kata benda dan kata kerja dalam pola ini akan menjadi tidak jelas.
+        `;
+    } else {
+        particleLogic = `
+            AI menganalisis bahwa pola <strong>${p.label}</strong> ini lebih berfokus pada 
+            <em>perubahan bentuk kata (Konjugasi)</em> daripada partikel tunggal. 
+            Fokus utamanya adalah bagaimana makna kalimat berubah total setelah kata kerja digabungkan.
+        `;
+    }
+
+    container.innerHTML = `
+        <div class="ai-deep-dive" style="animation: slideInUp 0.4s ease;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+                <div style="width:10px; height:10px; background:var(--miku-cyan); border-radius:50%; box-shadow: 0 0 10px var(--miku-cyan);"></div>
+                <h3 style="color:var(--miku-cyan); font-family:Orbitron; margin:0;">${p.label}</h3>
+            </div>
+            
+            <div class="particle-analysis" style="background:rgba(57,197,187,0.08); padding:15px; border-left:4px solid var(--miku-cyan); border-radius: 0 8px 8px 0;">
+                <div style="font-family:Orbitron; font-size:0.65rem; color:var(--miku-pink); letter-spacing:1px; margin-bottom:10px;">
+                    [SYSTEM_AI_EXPLANATION]: WHY_THIS_PARTICLE?
+                </div>
+                <p style="font-size:0.9rem; color:#fff; line-height:1.6; margin:0;">
+                    ${particleLogic}
+                </p>
+            </div>
+
+            <div class="rule-box" style="margin-top:20px; padding:12px; background:rgba(255,255,255,0.03); border:1px dashed #444; border-radius:5px;">
+                <span style="color:var(--miku-pink); font-size:0.7rem; font-family:Orbitron;">[USAGE_RULES]:</span>
+                <p style="font-size:0.8rem; color:#ccc; margin-top:5px; line-height:1.4;">${p.rules}</p>
+            </div>
+        </div>
+    `;
+}
