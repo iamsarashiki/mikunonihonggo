@@ -12,33 +12,55 @@ function initSidebar() {
     }
 }
 
-// 2. Pilih Bab & Render Slider
 function selectChapter(num, element) {
-    // Update UI Sidebar
+    // 1. Visual Feedback pada Sidebar
     document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
     element.classList.add('active');
 
-    const chapterKey = 'bab' + num;
-    const data = grammarData[chapterKey];
-    const wrapper = document.getElementById('pattern-slider');
-    wrapper.innerHTML = ''; // Clear slider
+    const data = grammarData['bab' + num];
+    const modal = document.getElementById('detail-modal');
+    const response = document.getElementById('ai-response');
+    const genContainer = document.getElementById('ai-generated-container');
+    const loading = document.getElementById('ai-loading');
 
-    if (data) {
+    if (!data) return;
+
+    // 2. Tampilkan Modal & Reset Konten
+    modal.style.display = 'flex';
+    loading.classList.remove('hidden');
+    response.innerHTML = '';
+    genContainer.innerHTML = '';
+
+    // 3. Render Daftar Pola ke dalam Modal
+    setTimeout(() => {
+        loading.classList.add('hidden');
+        
+        // Header Bab di dalam Modal
+        let htmlContent = `
+            <div class="modal-bab-header">
+                <h3 style="color:var(--miku-cyan); font-family:Orbitron;">CHAPTER_${num}: ${data.title}</h3>
+                <p style="font-size:0.8rem; color:#888; margin-bottom:15px;">Ditemukan ${data.patterns.length} pola tata bahasa.</p>
+            </div>
+            <div class="modal-pattern-grid" style="display:grid; gap:10px;">
+        `;
+
+        // List Pola sebagai Tombol di dalam Modal
         data.patterns.forEach(p => {
-            const slide = document.createElement('div');
-            slide.className = 'swiper-slide';
-            slide.innerHTML = `
-                <div style="color:var(--miku-cyan); font-family:Orbitron; margin-bottom:15px;">${p.label}</div>
-                <p style="font-size:0.9rem; line-height:1.4; color:#ccc;">${p.desc}</p>
-                <div style="margin-top:20px; border-top:1px solid #333; paddingTop:10px;">
-                    <small style="color:var(--miku-pink)">CONTOH:</small>
-                    <p style="font-style:italic; font-size:0.85rem; margin-top:5px;">${p.examples[0].jp}</p>
-                </div>
-                // Di dalam loop data.patterns.forEach(p => { ...
-// Ganti bagian button menjadi:
-<button class="btn-learn-more" onclick="openDeepDive('${p.id}')" style="margin-top:auto; padding:10px; border:1px solid var(--miku-cyan); background:transparent; color:white; cursor:pointer;">DETAIL_DATA</button>            `;
-            wrapper.appendChild(slide);
+            htmlContent += `
+                <button onclick="openAIPopup('${p.id}')" class="btn-ai-gen" style="text-align:left; width:100%; padding:12px;">
+                    <span style="color:var(--miku-pink)">[POLA]</span> ${p.label}
+                    <div style="font-size:0.7rem; color:#aaa; font-family:Rajdhani; margin-top:4px;">${p.desc}</div>
+                </button>
+            `;
         });
+
+        htmlContent += `</div>`;
+        response.innerHTML = htmlContent;
+
+        // Update status di player bawah
+        document.getElementById('now-playing').innerText = `SYSTEM: Accessing Chapter ${num}...`;
+    }, 600);
+}
 
         // Re-init Swiper
         if (swiperInstance) swiperInstance.destroy();
