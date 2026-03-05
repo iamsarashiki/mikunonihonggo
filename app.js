@@ -298,3 +298,81 @@ function openAIPopup(patternId) {
         `;
     }, 1200);
 }
+
+
+
+// 1. Cek Jumlah Pola Saat Bab Dipilih
+function checkPatternCount() {
+    const babNum = document.getElementById('select-bab-gen').value;
+    const data = grammarData['bab' + babNum];
+    const btnAdv = document.getElementById('btn-advanced');
+    const advBox = document.getElementById('advanced-pattern-list');
+    
+    // Reset View
+    advBox.classList.add('hidden');
+    
+    if (data && data.patterns.length > 1) {
+        btnAdv.classList.remove('hidden'); // Munculkan tombol Lanjutan
+        renderPatternCheckboxes(data.patterns);
+    } else {
+        btnAdv.classList.add('hidden'); // Sembunyikan jika pola cuma 1 atau 0
+    }
+}
+
+// 2. Render Daftar Checkbox Pola
+function renderPatternCheckboxes(patterns) {
+    const container = document.getElementById('checkbox-container');
+    container.innerHTML = '';
+    
+    patterns.forEach(p => {
+        const label = document.createElement('label');
+        label.className = 'checkbox-item';
+        label.innerHTML = `
+            <input type="checkbox" value="${p.id}" class="pattern-checkbox" checked>
+            <span>${p.label}</span>
+        `;
+        container.appendChild(label);
+    });
+}
+
+function toggleAdvancedOptions() {
+    document.getElementById('advanced-pattern-list').classList.toggle('hidden');
+}
+
+// 3. Fungsi Generate yang Sudah Difilter
+function generateNewBatch() {
+    const babNum = document.getElementById('select-bab-gen').value;
+    const grid = document.getElementById('ai-result-grid');
+    const sourceData = grammarData['bab' + babNum];
+    
+    // Ambil ID pola yang dicentang saja
+    const selectedIds = Array.from(document.querySelectorAll('.pattern-checkbox:checked')).map(cb => cb.value);
+
+    if (!sourceData) return;
+    
+    grid.innerHTML = '<p class="blink">FILTERING_DATA...</p>';
+
+    setTimeout(() => {
+        grid.innerHTML = '';
+        
+        // Filter pola berdasarkan pilihan user
+        const filteredPatterns = sourceData.patterns.filter(p => {
+            // Jika tidak ada pilihan lanjutan (tombol sembunyi), ambil semua. 
+            // Jika ada pilihan, ambil yang dicentang.
+            return selectedIds.length === 0 ? true : selectedIds.includes(p.id);
+        });
+
+        filteredPatterns.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'ai-card';
+            card.innerHTML = `
+                <div style="font-size: 0.6rem; color: var(--miku-pink); font-family: Orbitron;">[SELECTED_PATTERN]</div>
+                <h4 style="color:var(--miku-cyan); margin: 10px 0;">${p.label}</h4>
+                <button onclick="openAIPopup('${p.id}')" class="btn-ai-gen" style="width:100%">GENERATE_NEW_VARIATION</button>
+            `;
+            grid.appendChild(card);
+        });
+        
+        if(filteredPatterns.length === 0) grid.innerHTML = "<p>Pilih minimal satu pola untuk di-generate.</p>";
+    }, 600);
+}
