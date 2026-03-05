@@ -247,3 +247,212 @@ Object.assign(grammarData, {
         ]
     }
 });
+Object.assign(grammarData, {
+    "bab9": {
+        title: "Bab 9: Suka, Bisa, & Partikel 'Ga'",
+        patterns: [
+            {
+                id: "9.1",
+                label: "KB ga Suki / Kirai / Jouzu / Heta desu",
+                desc: "Menyatakan kesukaan, ketidaksukaan, kemahiran, atau ketidakterampilan.",
+                rules: "Objek ditandai dengan partikel が (ga), bukan を (wo).",
+                usage: "Sopan. Heta/Kirai sebaiknya digunakan hati-hati agar tidak menyinggung.",
+                examples: [
+                    { jp: "私はイタリア料理が好きです。", id: "Saya suka masakan Italia." },
+                    { jp: "サントスさんは絵が上手です。", id: "Sdr. Santos pandai menggambar." }
+                ]
+            },
+            {
+                id: "9.2",
+                label: "KB ga Wakarimasu / Arimasu",
+                desc: "Menyatakan pemahaman atau kepemilikan benda mati.",
+                rules: "Wakarimasu (Paham), Arimasu (Ada/Punya). Gunakan partikel が (ga).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "英語がわかりますか。", id: "Apakah kamu paham bahasa Inggris?" },
+                    { jp: "お金がありますか。", id: "Apakah kamu punya uang?" }
+                ]
+            },
+            {
+                id: "9.3",
+                label: "Karashiki (Alasan), Kekka (Akibat)",
+                desc: "Menyatakan alasan atau sebab.",
+                rules: "Kalimat Alasan + から (kara), + Kalimat Akibat.",
+                usage: "Standar. Bisa diletakkan di akhir kalimat untuk menjawab 'Doushite' (Kenapa).",
+                examples: [
+                    { jp: "時間がありませんから、タクシーで行きます。", id: "Karena tidak ada waktu, saya pergi dengan taksi." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab10": {
+        title: "Bab 10: Keberadaan (Arimasu / Imasu)",
+        patterns: [
+            {
+                id: "10.1",
+                label: "KB (Tempat) ni KB (Benda/Orang) ga Arimasu / Imasu",
+                desc: "Menyatakan keberadaan di suatu tempat.",
+                rules: "Arimasu (Benda mati/Tanaman), Imasu (Orang/Hewan). Tempat + に (ni).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "机の上に本があります。", id: "Di atas meja ada buku." },
+                    { jp: "あそこに男の人がいます。", id: "Di sana ada laki-laki." }
+                ]
+            },
+            {
+                id: "10.2",
+                label: "KB (Benda/Orang) wa KB (Tempat) ni Arimasu / Imasu",
+                desc: "Menyatakan lokasi dari subjek yang sudah diketahui.",
+                rules: "Subjek + は (wa) + Tempat + に (ni) + Arimasu/Imasu.",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "ミラーさんは事務所にいます。", id: "Sdr. Miller ada di kantor." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab11": {
+        title: "Bab 11: Bilangan & Kuantitas (Josuushi)",
+        patterns: [
+            {
+                id: "11.1",
+                label: "Kata Bilangan (Kuantitas)",
+                desc: "Cara meletakkan jumlah dalam kalimat.",
+                rules: "Biasanya diletakkan tepat sebelum kata kerja, tanpa partikel.",
+                usage: "Standar.",
+                examples: [
+                    { jp: "りんごを４つ買いました。", id: "Saya membeli 4 buah apel." },
+                    { jp: "学生が５人います。", id: "Ada 5 orang siswa." }
+                ]
+            },
+            {
+                id: "11.2",
+                label: "Kikan (Jangka Waktu)",
+                desc: "Menyatakan berapa lama suatu kegiatan dilakukan.",
+                rules: "Gunakan ~jikan (jam), ~shuukan (minggu), ~kagetsu (bulan), ~nen (tahun).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "国で２ヶ月日本語を勉強しました。", id: "Belajar bahasa Jepang di negara asal selama 2 bulan." }
+                ]
+            },
+            {
+                id: "11.3",
+                label: "Dake (Hanya)",
+                desc: "Membatasi jumlah atau benda.",
+                rules: "Diletakkan setelah kata bilangan atau kata benda.",
+                usage: "Standar.",
+                examples: [
+                    { jp: "休みは日曜日だけです。", id: "Liburnya hanya hari Minggu saja." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab12": {
+        title: "Bab 12: Perbandingan (Lebih & Paling)",
+        patterns: [
+            {
+                id: "12.1",
+                label: "KB1 wa KB2 yori (Kata Sifat) desu",
+                desc: "KB1 lebih (Kata Sifat) daripada KB2.",
+                rules: "KB2 adalah pembandingnya (Yori = Daripada).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "この車はあの車より速いです。", id: "Mobil ini lebih cepat daripada mobil itu." }
+                ]
+            },
+            {
+                id: "12.2",
+                label: "KB1 to KB2 to dochira ga (Kata Sifat) desu ka",
+                desc: "Membandingkan dua pilihan (Mana yang lebih...?).",
+                rules: "Jawaban: KB1 no hou ga (Kata Sifat) desu.",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "コーヒーと紅茶とどちらが好きですか。", id: "Antara kopi dan teh, mana yang lebih kamu suka?" }
+                ]
+            },
+            {
+                id: "12.3",
+                label: "KB (Kelompok) de nani/dore/itsu ga ichiban (Kata Sifat) desu ka",
+                desc: "Menyatakan yang 'Paling' dalam suatu lingkup/kelompok.",
+                rules: "Ichiban (Nomor satu/Paling).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "一年でいつが一番寒いですか。", id: "Dalam setahun, kapan yang paling dingin?" },
+                    { jp: "家族で父が一番背が高いです。", id: "Di keluarga, ayah yang paling tinggi." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab13": {
+        title: "Bab 13: Keinginan (Hoshii & Tai)",
+        patterns: [
+            {
+                id: "13.1",
+                label: "KB ga Hoshii desu",
+                desc: "Ingin (memiliki) suatu benda.",
+                rules: "Objek keinginan menggunakan partikel が (ga).",
+                usage: "Sopan. Digunakan untuk keinginan diri sendiri.",
+                examples: [
+                    { jp: "私は新しいパソコンが欲しいです。", id: "Saya ingin (punya) laptop baru." }
+                ]
+            },
+            {
+                id: "13.2",
+                label: "KK (Masu-kei) + Tai desu",
+                desc: "Ingin melakukan suatu tindakan.",
+                rules: "Hilangkan ~masu, ganti dengan ~tai. (Iki-masu -> Iki-tai).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "日本へ行きたいです。", id: "Saya ingin pergi ke Jepang." },
+                    { jp: "喉が渇きましたから、水を飲みたいです。", id: "Karena haus, saya ingin minum air." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab14": {
+        title: "Bab 14: Bentuk TE & Perintah Halus",
+        patterns: [
+            {
+                id: "14.1",
+                label: "KK-te kudasai",
+                desc: "Tolong lakukan (Perintah halus/Permohonan).",
+                rules: "Gunakan KK bentuk TE + ください (kudasai).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "すみませんが、漢字を教えてください。", id: "Maaf, tolong ajarkan saya kanji." }
+                ]
+            },
+            {
+                id: "14.2",
+                label: "KK-te imasu",
+                desc: "Sedang melakukan sesuatu (Present Continuous).",
+                rules: "Bentuk TE + います (imasu).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "今、雨が降っています。", id: "Sekarang sedang turun hujan." },
+                    { jp: "ミラーさんは今、電話をかけています。", id: "Sdr. Miller sekarang sedang menelepon." }
+                ]
+            },
+            {
+                id: "14.3",
+                label: "KK (Masu-kei) mashou ka",
+                desc: "Menawarkan bantuan (Bagaimana kalau saya bantu...?).",
+                rules: "Berbeda dengan 'Mashou' (Ayo), ini adalah tawaran bantuan.",
+                usage: "Sangat Sopan.",
+                examples: [
+                    { jp: "荷物を持ちましょうか。", id: "Bagaimana kalau saya bawakan barangnya?" }
+                ]
+            }
+        ]
+    }
+});
