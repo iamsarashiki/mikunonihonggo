@@ -136,3 +136,78 @@ function closeModal() {
 
 
 
+
+
+
+// Database Kosakata N4 untuk Simulasi AI
+const aiVocab = {
+    subjects: ["Watashi", "Tanaka-san", "Miku-chan", "Kazoku", "Tomodachi"],
+    objects: ["Nihongo", "Sushi", "Ongaku", "Anime", "Uta", "Hon"],
+    places: ["Tokyo", "Osaka", "Gakkou", "Umi", "Kouen"],
+    verbs: ["mimasu", "tabemasu", "kikimasu", "ikimasu", "benkyou shimasu"]
+};
+
+let currentActivePattern = null;
+
+function openDeepDive(id) {
+    const modal = document.getElementById('detail-modal');
+    const response = document.getElementById('ai-response');
+    const genContainer = document.getElementById('ai-generated-container');
+    
+    // Cari data pola
+    for (let k in grammarData) {
+        currentActivePattern = grammarData[k].patterns.find(p => p.id === id);
+        if (currentActivePattern) break;
+    }
+
+    modal.style.display = 'flex';
+    genContainer.innerHTML = ''; // Reset kalimat otomatis sebelumnya
+    
+    // Tampilkan analisis dasar
+    response.innerHTML = `
+        <h4 style="color:var(--miku-cyan)">[POLA: ${currentActivePattern.label}]</h4>
+        <p style="margin:10px 0;">${currentActivePattern.desc}</p>
+        <div style="font-size:0.8rem; color:#888;">RULES: ${currentActivePattern.rules}</div>
+    `;
+
+    // Set fungsi tombol AI
+    document.getElementById('gen-btn-ai').onclick = () => generateAISentence();
+}
+
+// FUNGSI UTAMA: AI GENERATOR AUTOMATIC
+function generateAISentence() {
+    const container = document.getElementById('ai-generated-container');
+    const s = aiVocab.subjects[Math.floor(Math.random() * aiVocab.subjects.length)];
+    const o = aiVocab.objects[Math.floor(Math.random() * aiVocab.objects.length)];
+    const v = aiVocab.verbs[Math.floor(Math.random() * aiVocab.verbs.length)];
+    
+    // Simulasi pembuatan pola berdasarkan partikel
+    let resultJp = "";
+    let resultId = "";
+
+    // Logika cerdas sederhana: Menyesuaikan partikel dengan pola yang dipilih
+    if (currentActivePattern.label.includes("wa")) {
+        resultJp = `${s} wa ${o} ga suki desu.`;
+        resultId = `${s} suka ${o.toLowerCase()}.`;
+    } else if (currentActivePattern.label.includes("ni")) {
+        const p = aiVocab.places[Math.floor(Math.random() * aiVocab.places.length)];
+        resultJp = `${s} wa ${p} ni ikimasu.`;
+        resultId = `${s} pergi ke ${p.toLowerCase()}.`;
+    } else {
+        resultJp = `${s} wa ${o} o ${v}.`;
+        resultId = `${s} sedang ${v.replace('masu', '')} ${o.toLowerCase()}.`;
+    }
+
+    // Render ke UI
+    const div = document.createElement('div');
+    div.className = 'new-ai-sentence';
+    div.innerHTML = `
+        <small style="color:var(--miku-pink)">[AI_GENERATED_DATA]</small>
+        <p style="font-size:0.9rem; margin-top:5px;"><strong>${resultJp}</strong></p>
+        <p style="font-size:0.8rem; color:#aaa;">(${resultId})</p>
+    `;
+    
+    // Selalu taruh yang terbaru di atas
+    container.insertBefore(div, container.firstChild);
+}
+
