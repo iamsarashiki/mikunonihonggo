@@ -513,3 +513,107 @@ function showPage(pageId) {
         document.querySelector('.swiper').classList.remove('hidden');
     }
 }
+
+
+
+
+
+
+// Variabel global untuk menyimpan pola yang sedang dianalisis
+let currentAnalyzedPattern = null;
+
+function openAIPopup(patternId) {
+    const modal = document.getElementById('detail-modal');
+    const response = document.getElementById('ai-response');
+    const genContainer = document.getElementById('ai-generated-container');
+    const loading = document.getElementById('ai-loading');
+    
+    modal.style.display = 'flex';
+    loading.classList.remove('hidden');
+    response.innerHTML = '';
+    genContainer.innerHTML = ''; // Kosongkan area kalimat
+
+    // Cari data pola dari database
+    currentAnalyzedPattern = null;
+    for (let k in grammarData) {
+        currentAnalyzedPattern = grammarData[k].patterns.find(item => item.id === patternId);
+        if (currentAnalyzedPattern) break;
+    }
+
+    if (!currentAnalyzedPattern) {
+        response.innerHTML = "ERROR: Pattern Data Not Found.";
+        return;
+    }
+
+    // Pasang fungsi klik ke tombol Refresh
+    document.getElementById('gen-btn-ai').onclick = () => generateFreshSentence();
+
+    // Simulasi AI memproses data
+    setTimeout(() => {
+        loading.classList.add('hidden');
+        
+        // 1. Tampilkan Analisis Dasar (Hanya render sekali)
+        renderStaticAnalysis(currentAnalyzedPattern, response);
+        
+        // 2. Langsung hasilkan 1 kalimat pertama secara otomatis
+        generateFreshSentence();
+        
+    }, 800);
+}
+
+// FUNGSI UNTUK MERENDER PENJELASAN PARTIKEL (TETAP)
+function renderStaticAnalysis(p, container) {
+    let particleLogic = "Pola ini digunakan sesuai struktur dasar tata bahasa.";
+    const label = p.label.toLowerCase();
+
+    if (label.includes("ni")) {
+        particleLogic = "Partikel <span class='particle-highlight'>に (ni)</span> menunjukkan titik tujuan spesifik atau waktu tetap.";
+    } else if (label.includes("de")) {
+        particleLogic = "Partikel <span class='particle-highlight'>で (de)</span> digunakan untuk menandai tempat aktivitas atau alat bantu.";
+    } else if (label.includes("ga")) {
+        particleLogic = "Partikel <span class='particle-highlight'>が (ga)</span> memberi penekanan pada subjek atau menunjukkan potensi/kemampuan.";
+    } else if (label.includes("o") || label.includes("を")) {
+        particleLogic = "Partikel <span class='particle-highlight'>を (o)</span> bertindak sebagai penanda objek langsung.";
+    }
+
+    container.innerHTML = `
+        <div class="ai-deep-dive">
+            <h3 style="color:var(--miku-cyan); font-family:Orbitron; border-bottom:1px solid #333; padding-bottom:5px; margin:0;">${p.label}</h3>
+            
+            <div class="particle-analysis" style="margin-top:15px; background:rgba(57,197,187,0.05); padding:12px; border-left:3px solid var(--miku-cyan);">
+                <strong style="color:var(--miku-cyan); font-family:Orbitron; font-size:0.7rem;">[PARTICLE_LOGIC_ANALYSIS]</strong>
+                <p style="font-size:0.85rem; margin-top:8px; line-height:1.4;">${particleLogic}</p>
+            </div>
+
+            <div style="margin-top:15px; font-size:0.8rem; color:#888;">
+                <span style="color:var(--miku-pink);">[RULES]:</span> ${p.rules}
+            </div>
+        </div>
+    `;
+}
+
+// FUNGSI UNTUK MERENDER KALIMAT BARU SAAT DI-REFRESH
+function generateFreshSentence() {
+    const container = document.getElementById('ai-generated-container');
+    const p = currentAnalyzedPattern;
+    if (!p) return;
+
+    // Database Acak Sederhana
+    const subjects = ["Miku", "Rizal-san", "Sensei", "Kareshi", "Watashi"];
+    const actions = ["Nihongo o benkyou", "Sushi o tabe", "Tokyo e iki", "Uta o utai"];
+    
+    const s = subjects[Math.floor(Math.random() * subjects.length)];
+    const a = actions[Math.floor(Math.random() * actions.length)];
+
+    let generatedJp = `${s} wa ${a} ${p.label}.`;
+    let generatedId = `(AI) ${s} melakukan aktivitas terkait pola ${p.label}.`;
+
+    // Render ulang ke kontainer (menimpa yang lama) dengan efek transisi ringan
+    container.innerHTML = `
+        <div class="new-ai-sentence" style="margin-top:20px; border-top:1px dashed #444; padding-top:15px; animation: fadeIn 0.4s ease;">
+            <small style="color:var(--miku-pink); font-family:Orbitron;">[AI_GENERATED_EXAMPLE]</small>
+            <p style="font-weight:bold; font-size:1.1rem; margin-top:8px; color:#fff;">${generatedJp}</p>
+            <p style="font-size:0.85rem; color:#aaa; font-style:italic;">"${generatedId}"</p>
+        </div>
+    `;
+}
