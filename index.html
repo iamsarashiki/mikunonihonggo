@@ -10,70 +10,54 @@
 </head>
 <body>
 
-
-<template id="card-template">
-    <div class="swiper-slide">
-        <div class="understood-label">MASTERED</div>
-
-        <div class="card-actions">
-            <button class="action-btn star-btn" title="Hafalkan">★</button>
-            <button class="action-btn check-btn" title="Sudah Mengerti">✔</button>
+    <template id="card-template">
+        <div class="swiper-slide">
+            <div class="understood-label">MASTERED</div>
+            <div class="card-actions">
+                <button class="action-btn star-btn" title="Hafalkan">★</button>
+                <button class="action-btn check-btn" title="Sudah Mengerti">✔</button>
+            </div>
+            <div class="card-label"></div>
+            <p class="card-desc"></p>
+            <div class="preview-box">
+                <small>EXAMPLE_STREAM:</small>
+                <p class="example-text"></p>
+            </div>
+            <button class="btn-learn-more">ACCESS_AI_DATA</button>
         </div>
+    </template>
 
-        <div class="card-label"></div>
-        <p class="card-desc"></p>
-        
-        <div class="preview-box">
-            <small>EXAMPLE_STREAM:</small>
-            <p class="example-text"></p>
-        </div>
-
-        <button class="btn-learn-more">ACCESS_AI_DATA</button>
-    </div>
-</template>
-
-    
     <div class="scanlines"></div>
 
     <div class="app-container">
         <div id="detail-modal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span class="glitch-text-small" id="modal-title">AI_ANALYSIS_INITIATED</span>
-            <button onclick="closeModal()" class="btn-close">X</button>
-        </div>
-        <div class="modal-body">
-            <div id="ai-loading" class="hidden">MEMPROSES_DATA... <span class="blink">_</span></div>
-            <div id="ai-response"></div>
-        </div>
-        <div class="modal-footer">
-            <small>SARASHIKI_OS v2.0 // NEURO_LINK_ACTIVE</small>
-            <div id="detail-modal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span class="glitch-text-small" id="modal-title">AI_ANALYSIS_INITIATED</span>
-            <button onclick="closeModal()" class="btn-close">X</button>
-        </div>
-        <div class="modal-body">
-            <div id="ai-loading" class="hidden">MEMPROSES_DATA... <span class="blink">_</span></div>
-            <div id="ai-response"></div>
-            <div id="ai-generated-container"></div> 
-        </div>
-        <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
-            <button id="gen-btn-ai" class="btn-ai-gen">GENERATE_NEW_CONTEXT [AI]</button>
-            <small>SARASHIKI_OS v2.0 // NEURO_LINK_ACTIVE</small>
-        </div>
-    </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="glitch-text-small" id="modal-title">AI_ANALYSIS_INITIATED</span>
+                    <button onclick="closeModal()" class="btn-close">X</button>
+                </div>
+                <div class="modal-body">
+                    <div id="ai-loading" class="hidden">MEMPROSES_DATA... <span class="blink">_</span></div>
+                    <div id="ai-response"></div>
+                    <div id="ai-generated-container"></div> 
+                </div>
+                <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+                    <button id="gen-btn-ai" class="btn-ai-gen">GENERATE_NEW_CONTEXT [AI]</button>
+                    <small>SARASHIKI_OS v2.0 // NEURO_LINK_ACTIVE</small>
+                </div>
             </div>
         </div>
-    </div>
-        </div>
+
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2 class="glitch-text-small" data-text="CHAPTERS">CHAPTERS</h2>
             </div>
             <nav id="chapter-list">
-                </nav>
+                <div class="chapter-item special-nav" onclick="showPage('generator')">
+                    <span style="color:var(--miku-pink)">[AI]</span> POLA GENERATOR
+                </div>
+                <hr style="border: 0.5px solid #222; margin: 10px 0;">
+            </nav>
             <div class="sync-section">
                 <button onclick="exportData()" class="btn-sync">EXPORT DATA</button>
             </div>
@@ -84,66 +68,39 @@
                 <div class="main-menu-glitch">
                     <h1 class="glitch-text" data-text="SARASHIKI">SARASHIKI</h1>
                     <h2 class="glitch-text-sub" data-text="N4 PROTOCOL">N4 PROTOCOL</h2>
-
-<div class="chapter-item special-nav" onclick="showPage('generator')">
-    <span style="color:var(--miku-pink)">[AI]</span> POLA GENERATOR
-</div>
-<hr style="border: 0.5px solid #222; margin: 10px 0;">
-
-<section id="page-generator" class="sub-page hidden">
-<section id="page-generator" class="sub-page hidden">
-    <header class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
-            <h2 class="glitch-text-sub" data-text="AI PATTERN LAB">AI PATTERN LAB</h2>
-            <p id="gen-status-text">Pilih Bab untuk menghasilkan variasi pola baru.</p>
-        </div>
-        <button onclick="toggleGeneratorMinimize()" id="btn-minimize-gen" class="btn-minimize">
-            <span id="min-icon">[_]</span> MINIMIZE_INTERFACE
-        </button>
-    </header>
-
-    <div id="generator-main-ui">
-        <div class="generator-controls">
-            <div class="control-group">
-                <select id="select-bab-gen" onchange="checkPatternCount()">
-                    </select>
-                <button id="btn-advanced" onclick="toggleAdvancedOptions()" class="btn-advanced hidden">OPSI LANJUTAN [+]</button>
-            </div>
-
-            <div id="advanced-pattern-list" class="advanced-box hidden">
-                <p style="font-size:0.7rem; color:var(--miku-cyan); margin-bottom:10px;">PILIH_POLA_SPESIFIK:</p>
-                <div id="checkbox-container" class="checkbox-grid"></div>
-            </div>
-
-            <button onclick="generateNewBatch()" class="btn-ai-gen-large">GENERATE POLA BARU</button>
-        </div>
-    </div>
-
-    <div id="ai-result-grid" class="result-grid">
-        </div>
-</section>
-
-    <div class="generator-controls">
-    <div class="control-group">
-        <select id="select-bab-gen" onchange="checkPatternCount()">
-            </select>
-        <button id="btn-advanced" onclick="toggleAdvancedOptions()" class="btn-advanced hidden">OPSI LANJUTAN [+]</button>
-    </div>
-
-    <div id="advanced-pattern-list" class="advanced-box hidden">
-        <p style="font-size:0.7rem; color:var(--miku-cyan); margin-bottom:10px;">PILIH_POLA_SPESIFIK:</p>
-        <div id="checkbox-container" class="checkbox-grid"></div>
-    </div>
-
-    <button onclick="generateNewBatch()" class="btn-ai-gen-large">GENERATE POLA BARU</button>
-</div>
-
-    <div id="ai-result-grid" class="result-grid">
-        </div>
-</section>
-                    
                 </div>
             </header>
+
+            <section id="page-generator" class="sub-page hidden">
+                <header class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2 class="glitch-text-sub" data-text="AI PATTERN LAB">AI PATTERN LAB</h2>
+                        <p id="gen-status-text">Pilih Bab untuk menghasilkan variasi pola baru.</p>
+                    </div>
+                    <button onclick="toggleGeneratorMinimize()" id="btn-minimize-gen" class="btn-minimize">
+                        <span id="min-icon">[_]</span> MINIMIZE_INTERFACE
+                    </button>
+                </header>
+
+                <div id="generator-main-ui">
+                    <div class="generator-controls">
+                        <div class="control-group">
+                            <select id="select-bab-gen" onchange="checkPatternCount()">
+                                </select>
+                            <button id="btn-advanced" onclick="toggleAdvancedOptions()" class="btn-advanced hidden">OPSI LANJUTAN [+]</button>
+                        </div>
+
+                        <div id="advanced-pattern-list" class="advanced-box hidden">
+                            <p style="font-size:0.7rem; color:var(--miku-cyan); margin-bottom:10px;">PILIH_POLA_SPESIFIK:</p>
+                            <div id="checkbox-container" class="checkbox-grid"></div>
+                        </div>
+
+                        <button onclick="generateNewBatch()" class="btn-ai-gen-large">GENERATE POLA BARU</button>
+                    </div>
+                </div>
+
+                <div id="ai-result-grid" class="result-grid"></div>
+            </section>
 
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper" id="pattern-slider">
