@@ -131,7 +131,7 @@ function generateNewBatch() {
     const resultGrid = document.getElementById('ai-result-grid');
     if (!babId) return;
 
-    resultGrid.innerHTML = '<div class="neon-text-cyan blink">SYNCING_DATA...</div>';
+    resultGrid.innerHTML = '<div class="neon-text-cyan blink">INITIATING_DARK_GEN...</div>';
     
     setTimeout(() => {
         resultGrid.innerHTML = '';
@@ -139,13 +139,22 @@ function generateNewBatch() {
         
         patterns.forEach(p => {
             const card = document.createElement('div');
-            card.className = 'ai-result-card neon-border-cyan';
+            // Menambahkan class neon pada card
+            card.className = 'ai-result-card neon-border-dark';
             
             card.innerHTML = `
-                <div class="card-id neon-text-pink">[${p.id}]</div>
-                <p class="jp-text">ミクさんは ${p.label.replace('~','')}。</p>
-                <p class="id-text"><strong>Artinya:</strong> Miku melakukan ${p.label}.</p>
-                <button onclick="openAIPopup('${p.id}')" class="btn-mini-neon">ANALISIS</button>
+                <div style="display:flex; justify-content:space-between;">
+                    <span class="neon-text-pink" style="font-size:0.6rem; font-family:Orbitron;">[SYSTEM_ID: ${p.id}]</span>
+                </div>
+                <p style="font-size:1.2rem; color:#fff; margin:10px 0; font-family:'Rajdhani';">
+                    ミクさんは <span class="neon-text-cyan">${p.label.replace('~','')}</span>。
+                </p>
+                <div style="background:rgba(0,0,0,0.5); padding:8px; border-radius:4px;">
+                    <p style="font-size:0.8rem; color:#ccc;"><strong>Artinya:</strong> Miku melakukan ${p.label}.</p>
+                </div>
+                <button onclick="openAIPopup('${p.id}')" class="btn-mini-neon" style="margin-top:10px; width:100%; background:transparent; border:1px solid var(--miku-cyan); color:var(--miku-cyan); padding:5px; cursor:pointer; font-family:Orbitron; font-size:0.6rem;">
+                    DEEP_ANALYZE_PARTICLE
+                </button>
             `;
             resultGrid.appendChild(card);
         });
