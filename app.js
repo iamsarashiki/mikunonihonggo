@@ -4,28 +4,35 @@
 
 let currentAnalyzedPattern = null;
 
-// 1. BOOTING SYSTEM
+// ==========================================
+// FIX: SIDEBAR RENDERER & SYSTEM BOOT
+// ==========================================
+
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("%c [SYS] SARASHIKI_OS: BOOTING_NEON_SYSTEM ", "color:#39c5bb; background:#000; font-weight:bold;");
+    console.log("SARASHIKI_OS: Initializing...");
     
-    if (typeof grammarData !== 'undefined') {
-        renderSidebar();      
-        populateBabSelect();  
-    } else {
-        console.error("[!] DATABASE_OFFLINE: Periksa grammar_data.js");
-    }
+    // Gunakan interval kecil untuk memastikan grammarData sudah ter-load
+    const checkData = setInterval(() => {
+        if (typeof grammarData !== 'undefined') {
+            clearInterval(checkData);
+            renderSidebar();
+            populateBabSelect();
+            console.log("SARASHIKI_OS: Database Connected & Sidebar Rendered.");
+        }
+    }, 100);
 });
 
-// 2. SIDEBAR ENGINE (DAFTAR BAB)
 function renderSidebar() {
     const sidebarNav = document.getElementById('chapter-list');
-    if (!sidebarNav) return;
-    sidebarNav.innerHTML = ''; 
+    if (!sidebarNav) return console.error("Element #chapter-list tidak ditemukan!");
 
-    // Tombol Lab Generator
+    sidebarNav.innerHTML = ''; // Clear existing content
+
+    // 1. Tombol Generator (Neon Style)
     const genNav = document.createElement('div');
     genNav.className = 'chapter-item special-nav';
     genNav.style.border = "1px solid var(--miku-pink)";
+    genNav.style.boxShadow = "0 0 10px rgba(255, 0, 127, 0.2)";
     genNav.innerHTML = `<span style="color:var(--miku-pink); text-shadow:0 0 5px var(--miku-pink);">[AI]</span> POLA GENERATOR`;
     genNav.onclick = () => {
         showPage('generator');
@@ -38,20 +45,29 @@ function renderSidebar() {
     hr.style.margin = "15px 0";
     sidebarNav.appendChild(hr);
 
+    // 2. Render Bab 01 - 25
     for (let i = 1; i <= 25; i++) {
-        const babData = grammarData['bab' + i];
+        const babKey = 'bab' + i;
+        const babData = grammarData[babKey];
+        
         const chapterDiv = document.createElement('div');
         chapterDiv.className = 'chapter-item';
+        // Tambahkan efek Neon Cyan pada nomor bab
         const title = babData ? babData.title : `CHAPTER ${i}`;
         
         chapterDiv.innerHTML = `
-            <span class="ch-num" style="color:var(--miku-cyan); font-family:Orbitron;">${i < 10 ? '0' + i : i}</span>
-            <span class="ch-title">${title}</span>
+            <span class="ch-num" style="color:var(--miku-cyan); font-family:Orbitron; text-shadow:0 0 5px var(--miku-cyan);">${i < 10 ? '0' + i : i}</span>
+            <span class="ch-title" style="margin-left:10px; color:#fff;">${title}</span>
         `;
         
         chapterDiv.onclick = () => {
+            // Remove active class from others
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             chapterDiv.classList.add('active');
+            
+            // Neon effect on active
+            chapterDiv.style.borderRight = "3px solid var(--miku-cyan)";
+            
             selectChapter(i); 
             if(window.innerWidth < 768) toggleSidebar(); 
         };
