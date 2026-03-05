@@ -215,3 +215,86 @@ body {
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+
+
+
+
+
+
+
+
+.hidden { display: none; }
+.sub-page { padding: 30px; overflow-y: auto; height: 100%; }
+
+.generator-controls {
+    display: flex; gap: 15px; margin-bottom: 30px; background: rgba(255,255,255,0.03);
+    padding: 20px; border: 1px solid #333; border-radius: 8px;
+}
+
+#select-bab-gen {
+    background: #000; color: var(--miku-cyan); border: 1px solid var(--miku-cyan);
+    padding: 10px; font-family: 'Orbitron'; flex: 1;
+}
+
+.btn-ai-gen-large {
+    background: var(--miku-cyan); color: #000; border: none; padding: 0 25px;
+    font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s;
+}
+
+.btn-ai-gen-large:hover { box-shadow: 0 0 20px var(--miku-cyan); transform: scale(1.02); }
+
+.result-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px; padding-bottom: 100px;
+}
+
+.ai-card {
+    background: rgba(10, 10, 10, 0.8); border: 1px solid var(--miku-pink);
+    padding: 20px; position: relative; animation: slideUp 0.4s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.hidden { display: none; }
+.sub-page { padding: 30px; overflow-y: auto; height: 100%; }
+
+.generator-controls {
+    display: flex; gap: 15px; margin-bottom: 30px; background: rgba(255,255,255,0.03);
+    padding: 20px; border: 1px solid #333; border-radius: 8px;
+}
+
+#select-bab-gen {
+    background: #000; color: var(--miku-cyan); border: 1px solid var(--miku-cyan);
+    padding: 10px; font-family: 'Orbitron'; flex: 1;
+}
+
+.btn-ai-gen-large {
+    background: var(--miku-cyan); color: #000; border: none; padding: 0 25px;
+    font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s;
+}
+
+.btn-ai-gen-large:hover { box-shadow: 0 0 20px var(--miku-cyan); transform: scale(1.02); }
+
+.result-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px; padding-bottom: 100px;
+}
+
+.ai-card {
+    background: rgba(10, 10, 10, 0.8); border: 1px solid var(--miku-pink);
+    padding: 20px; position: relative; animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
