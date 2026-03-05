@@ -1,0 +1,75 @@
+:root {
+    --miku-cyan: #39C5BB;
+    --miku-pink: #FF1493;
+    --bg-black: #050505;
+}
+
+body {
+    background-color: var(--bg-black);
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.glitch-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, rgba(57,197,187,0.05) 0%, rgba(0,0,0,1) 80%);
+    z-index: -1;
+}
+
+/* Glitch Effect untuk Nama */
+.glitch {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 5rem;
+    position: relative;
+    color: var(--miku-cyan);
+}
+
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg-black);
+}
+
+.glitch::before { left: 2px; text-shadow: -2px 0 red; animation: glitch-1 2s infinite linear alternate-reverse; }
+.glitch::after { left: -2px; text-shadow: -2px 0 blue; animation: glitch-2 3s infinite linear alternate-reverse; }
+
+@keyframes glitch-1 {
+    0% { clip-path: inset(20% 0 30% 0); }
+    100% { clip-path: inset(10% 0 60% 0); }
+}
+
+/* Track Card Style */
+.track-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin: 10px 0;
+    border-left: 2px solid var(--miku-cyan);
+    background: rgba(255,255,255,0.02);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.track-card:hover {
+    background: rgba(57,197,187,0.1);
+    transform: translateX(10px);
+    box-shadow: -10px 0 var(--miku-pink);
+}
+
+/* Floating Player */
+.miku-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background: rgba(10,10,10,0.9);
+    border: 1px solid var(--miku-cyan);
+    display: flex;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(57,197,187,0.2);
+}
