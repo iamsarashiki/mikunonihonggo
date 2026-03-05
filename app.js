@@ -469,3 +469,47 @@ function openAIPopup(patternId) {
         `;
     }, 1000);
 }
+
+
+
+
+
+let isGenMinimized = false;
+
+function toggleGeneratorMinimize() {
+    const container = document.getElementById('page-generator');
+    const btnText = document.getElementById('btn-minimize-gen');
+    const icon = document.getElementById('min-icon');
+    const statusText = document.getElementById('gen-status-text');
+
+    isGenMinimized = !isGenMinimized;
+
+    if (isGenMinimized) {
+        container.classList.add('is-minimized');
+        btnText.innerHTML = `<span id="min-icon">[+]</span> EXPAND_INTERFACE`;
+        statusText.style.display = 'none'; // Sembunyikan deskripsi agar hemat ruang
+    } else {
+        container.classList.remove('is-minimized');
+        btnText.innerHTML = `<span id="min-icon">[_]</span> MINIMIZE_INTERFACE`;
+        statusText.style.display = 'block';
+    }
+}
+
+// Tambahan: Pastikan saat pindah halaman, status kembali normal (Expand)
+function showPage(pageId) {
+    document.querySelectorAll('.sub-page, .swiper').forEach(el => el.classList.add('hidden'));
+    
+    if (pageId === 'generator') {
+        const genPage = document.getElementById('page-generator');
+        genPage.classList.remove('hidden');
+        
+        // Reset minimize status saat masuk ke halaman
+        genPage.classList.remove('is-minimized');
+        isGenMinimized = false;
+        document.getElementById('btn-minimize-gen').innerHTML = `<span id="min-icon">[_]</span> MINIMIZE_INTERFACE`;
+        
+        populateBabSelect();
+    } else {
+        document.querySelector('.swiper').classList.remove('hidden');
+    }
+}
