@@ -142,3 +142,108 @@ Object.assign(grammarData, {
         ]
     }
 });
+Object.assign(grammarData, {
+    "bab6": {
+        title: "Bab 6: Objek & Ajakan (Wo / Issho ni)",
+        patterns: [
+            {
+                id: "6.1",
+                label: "KB (Benda) wo KK (Transitif)",
+                desc: "Menunjukkan objek dari sebuah tindakan.",
+                rules: "Partikel を (wo) digunakan setelah kata benda objek.",
+                usage: "Standar Sopan.",
+                examples: [
+                    { jp: "お酒を飲みます。", id: "Minum sake." },
+                    { jp: "パンを食べます。", id: "Makan roti." }
+                ]
+            },
+            {
+                id: "6.2",
+                label: "Issho ni KK-masen ka",
+                desc: "Mengajak lawan bicara melakukan sesuatu bersama.",
+                rules: "Bentuk negatif pertanyaan (-masen ka) digunakan untuk ajakan yang lebih sopan/halus.",
+                usage: "Sangat Sopan (Ajakan).",
+                examples: [
+                    { jp: "いっしょに京都へ行きませんか。", id: "Maukah pergi ke Kyoto bersama-sama?" }
+                ]
+            },
+            {
+                id: "6.3",
+                label: "KK-mashou",
+                desc: "Ayo melakukan sesuatu! (Respon setuju atas ajakan).",
+                rules: "Bentuk positif yang tegas untuk memulai aksi.",
+                usage: "Sopan (Ajakan/Persetujuan).",
+                examples: [
+                    { jp: "ちょっと休みましょう。", id: "Ayo istirahat sebentar." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab7": {
+        title: "Bab 7: Alat & Memberi-Menerima (De / Agemasu)",
+        patterns: [
+            {
+                id: "7.1",
+                label: "KB (Alat/Bahasa) de KK",
+                desc: "Menunjukkan sarana atau alat untuk melakukan sesuatu.",
+                rules: "Bisa berupa bahasa (Nihongo de) atau benda (Hashi de).",
+                usage: "Keterangan cara.",
+                examples: [
+                    { jp: "はしで食べます。", id: "Makan dengan sumpit." },
+                    { jp: "日本語でレポートを書きます。", id: "Menulis laporan dalam bahasa Jepang." }
+                ]
+            },
+            {
+                id: "7.2",
+                label: "KB1 (Orang) ni KB2 wo Agemasu",
+                desc: "Memberikan sesuatu (KB2) kepada seseorang (KB1).",
+                rules: "Penerima ditandai dengan partikel に (ni).",
+                usage: "Arah pemberian.",
+                examples: [
+                    { jp: "木村さんに花をあげました。", id: "Sudah memberikan bunga kepada Sdr. Kimura." }
+                ]
+            },
+            {
+                id: "7.3",
+                label: "KB1 (Orang) ni KB2 wo Moraimasu",
+                desc: "Menerima sesuatu (KB2) dari seseorang (KB1).",
+                rules: "Bisa menggunakan に (ni) atau から (kara) untuk menunjukkan sumber.",
+                usage: "Penerimaan.",
+                examples: [
+                    { jp: "山田さんにプレゼントをもらいました。", id: "Mendapat hadiah dari Sdr. Yamada." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab8": {
+        title: "Bab 8: Kata Sifat (I-Adjective & Na-Adjective)",
+        patterns: [
+            {
+                id: "8.1",
+                label: "Na-Keiyoushi (desu / ja arimasen)",
+                desc: "Kata sifat yang membutuhkan 'Na' jika menempel pada kata benda.",
+                rules: "Negatif: Hima ja arimasen. Gabung benda: Kirei NA hito.",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "この町は静かです。", id: "Kota ini sepi." },
+                    { jp: "ワットさんは親切な先生です。", id: "Sdr. Watt adalah guru yang ramah." }
+                ]
+            },
+            {
+                id: "8.2",
+                label: "I-Keiyoushi (desu / ~kunai desu)",
+                desc: "Kata sifat yang berakhiran 'i'.",
+                rules: "Negatif: Akhiran 'i' diganti 'kunai'. (Samui -> Samukunai).",
+                usage: "Sopan.",
+                examples: [
+                    { jp: "富士山は高いです。", id: "Gunung Fuji tinggi." },
+                    { jp: "この料理はあまり辛くないです。", id: "Masakan ini tidak begitu pedas." }
+                ]
+            }
+        ]
+    }
+});
