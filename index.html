@@ -91,10 +91,37 @@
 <hr style="border: 0.5px solid #222; margin: 10px 0;">
 
 <section id="page-generator" class="sub-page hidden">
-    <header class="page-header">
-        <h2 class="glitch-text-sub" data-text="AI PATTERN LAB">AI PATTERN LAB</h2>
-        <p>Pilih Bab untuk menghasilkan variasi pola baru secara otomatis.</p>
+<section id="page-generator" class="sub-page hidden">
+    <header class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h2 class="glitch-text-sub" data-text="AI PATTERN LAB">AI PATTERN LAB</h2>
+            <p id="gen-status-text">Pilih Bab untuk menghasilkan variasi pola baru.</p>
+        </div>
+        <button onclick="toggleGeneratorMinimize()" id="btn-minimize-gen" class="btn-minimize">
+            <span id="min-icon">[_]</span> MINIMIZE_INTERFACE
+        </button>
     </header>
+
+    <div id="generator-main-ui">
+        <div class="generator-controls">
+            <div class="control-group">
+                <select id="select-bab-gen" onchange="checkPatternCount()">
+                    </select>
+                <button id="btn-advanced" onclick="toggleAdvancedOptions()" class="btn-advanced hidden">OPSI LANJUTAN [+]</button>
+            </div>
+
+            <div id="advanced-pattern-list" class="advanced-box hidden">
+                <p style="font-size:0.7rem; color:var(--miku-cyan); margin-bottom:10px;">PILIH_POLA_SPESIFIK:</p>
+                <div id="checkbox-container" class="checkbox-grid"></div>
+            </div>
+
+            <button onclick="generateNewBatch()" class="btn-ai-gen-large">GENERATE POLA BARU</button>
+        </div>
+    </div>
+
+    <div id="ai-result-grid" class="result-grid">
+        </div>
+</section>
 
     <div class="generator-controls">
     <div class="control-group">
