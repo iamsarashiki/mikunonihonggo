@@ -73,3 +73,42 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 20px rgba(57,197,187,0.2);
 }
+.social-hub {
+    padding: 50px 20px;
+    text-align: center;
+    border-top: 1px solid #222;
+}
+
+.hub-title {
+    font-family: 'Orbitron';
+    font-size: 0.8rem;
+    color: var(--miku-pink);
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.social-btn {
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid var(--miku-cyan);
+    color: var(--miku-cyan);
+    font-family: 'Orbitron';
+    font-size: 0.7rem;
+    transition: 0.4s;
+}
+
+.social-btn:hover {
+    background: var(--miku-cyan);
+    color: black;
+    box-shadow: 0 0 20px var(--miku-cyan);
+    transform: translateY(-5px);
+}
+
+.social-btn.yt:hover { border-color: #FF0000; box-shadow: 0 0 20px #FF0000; background: #FF0000; }
