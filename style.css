@@ -34,18 +34,52 @@ body {
     text-shadow: var(--neon-glow-pink);
 }
 
-/* Card & Box Neon */
-.ai-result-card {
-    background: var(--card-bg) !important;
-    border: 1px solid #222 !important;
-    border-left: 4px solid var(--miku-cyan) !important;
-    transition: 0.3s;
+/* Container Utama untuk Center Layout */
+#chapter-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Tombol ke tengah */
+    max-height: 60vh; /* Batasi tinggi agar bisa scroll */
+    overflow-y: auto; /* Aktifkan scroll vertikal */
+    padding: 20px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px; /* Lebar maksimal daftar bab */
+    scrollbar-width: thin;
+    scrollbar-color: var(--miku-cyan) transparent;
 }
 
-.ai-result-card:hover {
-    border-color: var(--miku-cyan) !important;
-    box-shadow: var(--neon-glow-cyan);
-    transform: translateY(-2px);
+/* Hilangkan scrollbar bawaan Chrome/Safari agar rapi */
+#chapter-list::-webkit-scrollbar {
+    width: 4px;
+}
+#chapter-list::-webkit-scrollbar-thumb {
+    background: var(--miku-cyan);
+    border-radius: 10px;
+}
+
+/* AI Result Grid di Tengah */
+#ai-result-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.ai-result-card {
+    width: 90%; /* Agar tidak terlalu lebar di PC, tapi pas di HP */
+    max-width: 450px;
+    text-align: center; /* Teks di dalam card juga tengah */
+}
+
+/* Tombol Bab */
+.chapter-item {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
 /* Modal Dark Neon */
@@ -83,16 +117,6 @@ body {
     overflow-y: auto;
 }
 
-.chapter-item {
-    padding: 12px 20px;
-    border-bottom: 1px solid #111;
-    cursor: pointer;
-    font-family: 'Rajdhani', sans-serif;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
 
 .chapter-item:hover {
     background: rgba(57, 197, 187, 0.1);
