@@ -133,3 +133,124 @@ function typeWriterEffect(element, text) {
 function closeModal() {
     document.getElementById('detail-modal').style.display = 'none';
 }
+
+
+
+// Database Status Offline
+let userProgress = JSON.parse(localStorage.getItem('miku_n4_progress')) || {};
+let userUnderstanding = JSON.parse(localStorage.getItem('miku_n4_understood')) || {};
+let swiperInstance = null;
+
+// Fungsi Render Slider dengan Dual Status (Star & Check)
+function selectChapter(num, element) {
+    document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
+    element.classList.add('active');
+
+    const chapterKey = 'bab' + num;
+    const data = grammarData[chapterKey];
+    const wrapper = document.getElementById('pattern-slider');
+    
+    wrapper.innerHTML = ''; 
+
+    if (data && data.patterns) {
+        data.patterns.forEach(p => {
+            const isStarred = userProgress[p.id] ? 'active' : '';
+            const isUnderstood = userUnderstanding[p.id] ? 'active' : '';
+            const cardClass = userUnderstanding[p.id] ? 'is-understood' : '';
+            
+            const slide = document.createElement('div');
+            slide.className = `swiper-slide ${cardClass}`;
+            slide.innerHTML = `
+                <div class="card-actions">
+                    <button class="star-btn ${isStarred}" onclick="event.stopPropagation(); toggleStar('${p.id}', this)">★</button>
+                    <button class="check-btn ${isUnderstood}" onclick="event.stopPropagation(); toggleCheck('${p.id}', this)">✔</button>
+                </div>
+                
+                <div class="understood-label">COMPLETED</div>
+
+                <div class="card-label">${p.label}</div>
+                <p class="card-desc">${p.desc}</p>
+                
+                <div class="preview-box" style="margin-top:20px; padding:10px; background:rgba(255,255,255,0.03); border-radius:5px;">
+                    <small style="color:var(--miku-pink); font-family:Orbitron; font-size:0.6rem;">EXAMPLE_STREAM</small>
+                    <p style="font-size:0.85rem; margin-top:5px; font-style:italic;">${p.examples[0].jp}</p>
+                </div>
+
+                <button class="btn-learn-more" onclick="openDeepDive('${p.id}')" style="margin-top:auto; padding:12px; border:1px solid var(--miku-cyan); background:transparent; color:white; font-family:Orbitron; cursor:pointer;">ACCESS_DATA</button>
+            `;
+            wrapper.appendChild(slide);
+        });
+
+        if (swiperInstance) swiperInstance.destroy();
+        swiperInstance = new Swiper(".mySwiper", {
+            effect: "coverflow", grabCursor: true, centeredSlides: true,
+            slidesPerView: "auto", coverflowEffect: { rotate: 20, stretch: 0, depth: 100, modifier: 1, slideShadows: false },
+            pagination: { el: ".swiper-pagination", clickable: true }
+        });
+    }
+}
+
+// FUNGSI CHECKLIST (SUDAH MENGERTI)
+function toggleCheck(id, btn) {
+    const slide = btn.closest('.swiper-slide');
+    
+    if (userUnderstanding[id]) {
+        delete userUnderstanding[id];
+        btn.classList.remove('active');
+        slide.classList.remove('is-understood');
+    } else {
+        userUnderstanding[id] = true;
+        btn.classList.add('active');
+        slide.classList.add('is-understood');
+        
+        // Efek Suara/Notifikasi kecil (Opsional)
+        console.log(`[SYSTEM]: Pola ${id} ditandai sebagai SELESAI.`);
+    }
+    
+    // Simpan Offline
+    localStorage.setItem('miku_n4_understood', JSON.stringify(userUnderstanding));
+}
+
+// Update Fungsi Export untuk menyertakan data Checklist
+function exportData() {
+    const allData = {
+        stars: userProgress,
+        checks: userUnderstanding
+    };
+    const dataString = JSON.stringify(allData);
+    
+    navigator.clipboard.writeText(dataString).then(() => {
+        alert("SARASHIKI_SYSTEM: Semua data (Hafal & Checklist) berhasil disalin!");
+    });
+}
+
+// Update Fungsi Import
+function importData() {
+    const inputCode = prompt("MASUKKAN KODE SINKRONISASI:");
+    if (inputCode) {
+        try {
+            const parsed = JSON.parse(inputCode);
+            userProgress = parsed.stars || {};
+            userUnderstanding = parsed.checks || {};
+            
+            localStorage.setItem('miku_n4_progress', JSON.stringify(userProgress));
+            localStorage.setItem('miku_n4_understood', JSON.stringify(userUnderstanding));
+            
+            alert("SYSTEM: Sinkronisasi Berhasil!");
+            location.reload();
+        } catch (e) {
+            alert("ERROR: Kode tidak kompatibel.");
+        }
+    }
+}
+
+function toggleStar(id, btn) {
+    if (userProgress[id]) {
+        delete userProgress[id];
+        btn.classList.remove('active');
+    } else {
+        userProgress[id] = true;
+        btn.classList.add('active');
+    }
+    localStorage.setItem('miku_n4_progress', JSON.stringify(userProgress));
+}
