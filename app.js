@@ -376,3 +376,96 @@ function generateNewBatch() {
         if(filteredPatterns.length === 0) grid.innerHTML = "<p>Pilih minimal satu pola untuk di-generate.</p>";
     }, 600);
 }
+
+
+function openAIPopup(patternId) {
+    const modal = document.getElementById('detail-modal');
+    const response = document.getElementById('ai-response');
+    const loading = document.getElementById('ai-loading');
+    
+    modal.style.display = 'flex';
+    loading.classList.remove('hidden');
+    response.innerHTML = '';
+
+    // 1. Cari data pola yang spesifik dari database
+    let p = null;
+    for (let k in grammarData) {
+        p = grammarData[k].patterns.find(item => item.id === patternId);
+        if (p) break;
+    }
+
+    if (!p) {
+        response.innerHTML = "ERROR: Pattern Data Not Found.";
+        return;
+    }
+
+    // 2. Simulasi AI Berpikir (Deep Analysis)
+    setTimeout(() => {
+        loading.classList.add('hidden');
+        
+        // --- LOGIKA ANALISIS PARTIKEL OTOMATIS ---
+        let particleLogic = "";
+        const label = p.label.toLowerCase();
+
+        if (label.includes("ni")) {
+            particleLogic = "Partikel <span class='particle-highlight'>に (ni)</span> di sini menunjukkan titik tujuan atau waktu spesifik terjadinya aktivitas.";
+        } else if (label.includes("de")) {
+            particleLogic = "Partikel <span class='particle-highlight'>で (de)</span> digunakan untuk menandai tempat terjadinya aksi aktif atau sarana/alat.";
+        } else if (label.includes("ga")) {
+            particleLogic = "Partikel <span class='particle-highlight'>が (ga)</span> digunakan untuk menekankan subjek atau menunjukkan kemampuan (potential) dan keinginan.";
+        } else if (label.includes("o") || label.includes("を")) {
+            particleLogic = "Partikel <span class='particle-highlight'>を (o)</span> digunakan sebagai penanda objek langsung dari kata kerja transitif.";
+        } else if (label.includes("wa")) {
+            particleLogic = "Partikel <span class='particle-highlight'>は (wa)</span> berfungsi sebagai penanda topik utama dalam kalimat ini.";
+        } else {
+            particleLogic = `Pola <span class='particle-highlight'>${p.label}</span> merupakan bentuk perubahan kata kerja/sifat yang berfungsi untuk ${p.desc.toLowerCase()}.`;
+        }
+
+        // --- LOGIKA GENERATOR CONTOH KALIMAT (Disesuaikan dengan pola) ---
+        // Kita ambil kosakata dari database internal kita
+        const subjects = ["Miku", "Rizal-san", "Tanaka-san", "Tomodachi"];
+        const s = subjects[Math.floor(Math.random() * subjects.length)];
+        
+        // Membuat kalimat berdasarkan 'rules' atau 'label'
+        let generatedJp = "";
+        let generatedId = "";
+
+        if (p.label.includes("~te")) {
+            generatedJp = `${s} wa uchi e kaette, gohan o tabemasu.`;
+            generatedId = `${s} pulang ke rumah, lalu makan.`;
+        } else if (p.label.includes("koto ga deki")) {
+            generatedJp = `${s} wa Nihongo o hanasu koto ga dekimasu.`;
+            generatedId = `${s} bisa berbicara bahasa Jepang.`;
+        } else {
+            // Jika pola tidak spesifik, gunakan struktur dasar yang menggabungkan pola
+            generatedJp = `${s} wa mainichi benkyou ${p.label.replace('~', '')}.`;
+            generatedId = `${s} setiap hari ${p.desc.toLowerCase()}.`;
+        }
+
+        // 3. Render ke Modal
+        response.innerHTML = `
+            <div class="ai-deep-dive">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:10px;">
+                    <h3 style="color:var(--miku-cyan); font-family:Orbitron; margin:0;">${p.label}</h3>
+                    <span style="font-size:0.6rem; color:var(--miku-pink);">ID: ${p.id}</span>
+                </div>
+
+                <div class="new-ai-sentence" style="margin-top:20px;">
+                    <small style="color:var(--miku-pink); font-family:Orbitron;">[NEW_AI_GENERATED_EXAMPLE]</small>
+                    <p style="font-weight:bold; font-size:1.1rem; margin-top:5px; color:#fff;">${generatedJp}</p>
+                    <p style="font-size:0.85rem; color:#888; font-style:italic;">"${generatedId}"</p>
+                </div>
+
+                <div class="particle-analysis" style="margin-top:20px; background:rgba(57,197,187,0.05); padding:15px; border-left:3px solid var(--miku-cyan);">
+                    <strong style="color:var(--miku-cyan); font-family:Orbitron; font-size:0.7rem;">[PARTICLE_LOGIC_ANALYSIS]</strong>
+                    <p style="font-size:0.9rem; margin-top:8px; line-height:1.5;">${particleLogic}</p>
+                </div>
+
+                <div style="margin-top:20px; padding:10px; border:1px dashed #444; font-size:0.8rem;">
+                    <span style="color:var(--miku-pink);">[RE-MIX_RULES]:</span><br>
+                    ${p.rules}
+                </div>
+            </div>
+        `;
+    }, 1000);
+}
