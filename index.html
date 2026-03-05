@@ -3,122 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SARASHIKI x MIKU | N4 Protocol & Music</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="style.css">
+    <title>SARASHIKI_OS | Nihongo Lab</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --miku-cyan: #39c5bb;
+            --miku-pink: #ff007f;
+            --bg-dark: #000000;
+            --card-bg: rgba(15, 15, 15, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden; /* Mencegah seluruh halaman scroll */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Container Utama Terpusat */
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            color: var(--miku-cyan);
+            text-shadow: 0 0 15px var(--miku-cyan);
+        }
+
+        /* Area Scroll Tengah */
+        #chapter-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        #chapter-list::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        /* Page Generator (Hidden by default) */
+        #page-generator {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: var(--bg-dark);
+            z-index: 10;
+            overflow-y: auto;
+        }
+
+        .hidden { display: none !important; }
+
+        /* UI Elements */
+        .neon-select {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid var(--miku-cyan);
+            color: #fff;
+            font-family: 'Orbitron';
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 2px solid var(--miku-pink);
+            color: var(--miku-pink);
+            font-family: 'Orbitron';
+            cursor: pointer;
+            text-shadow: 0 0 10px var(--miku-pink);
+            transition: 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .btn-main:hover {
+            background: var(--miku-pink);
+            color: #000;
+        }
+
+        /* Modal / Pop-up */
+        #detail-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #0a0a0a;
+            border: 1px solid var(--miku-cyan);
+            width: 100%;
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(57,197,187,0.2);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px; right: 15px;
+            color: var(--miku-pink);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .blink { animation: blinker 1.5s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+    </style>
 </head>
 <body>
 
-    <template id="card-template">
-        <div class="swiper-slide">
-            <div class="understood-label">MASTERED</div>
-            <div class="card-actions">
-                <button class="action-btn star-btn" title="Hafalkan">★</button>
-                <button class="action-btn check-btn" title="Sudah Mengerti">✔</button>
-            </div>
-            <div class="card-label"></div>
-            <p class="card-desc"></p>
-            <div class="preview-box">
-                <small>EXAMPLE_STREAM:</small>
-                <p class="example-text"></p>
-            </div>
-            <button class="btn-learn-more">ACCESS_AI_DATA</button>
-        </div>
-    </template>
-
-    <div class="scanlines"></div>
-
     <div class="app-container">
-        <div id="detail-modal" class="modal-overlay">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="glitch-text-small" id="modal-title">AI_ANALYSIS_INITIATED</span>
-                    <button onclick="closeModal()" class="btn-close">X</button>
-                </div>
-                <div class="modal-body">
-                    <div id="ai-loading" class="hidden">MEMPROSES_DATA... <span class="blink">_</span></div>
-                    <div id="ai-response"></div>
-                    <div id="ai-generated-container"></div> 
-                </div>
-                <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
-    <button id="gen-btn-ai" class="btn-ai-gen">[↻] REFRESH_CONTEXT</button>
-    <small>SARASHIKI_OS v2.0 // NEURO_LINK_ACTIVE</small>
-                </div>
-            </div>
+        <header>
+            <div class="logo">SARASHIKI_OS</div>
+            <p style="font-size: 0.7rem; color: #555;">v4.1 NEON_CENTRAL_PROTOCOL</p>
+        </header>
+
+        <div id="chapter-list">
+            <p style="text-align:center; color: var(--miku-cyan);" class="blink">LOADING_SYSTEM...</p>
         </div>
 
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2 class="glitch-text-small" data-text="CHAPTERS">CHAPTERS</h2>
-            </div>
-            <nav id="chapter-list">
-    </nav>
-            <div class="sync-section">
-                <button onclick="exportData()" class="btn-sync">EXPORT DATA</button>
-            </div>
-        </aside>
-
-        <main class="main-content">
-            <header class="hero-section">
-                <div class="main-menu-glitch">
-                    <h1 class="glitch-text" data-text="SARASHIKI">SARASHIKI</h1>
-                    <h2 class="glitch-text-sub" data-text="N4 PROTOCOL">N4 PROTOCOL</h2>
-                </div>
-            </header>
-
-            <section id="page-generator" class="sub-page hidden">
-    <div class="gen-header-mini">
-        <h2 class="glitch-text-sub" data-text="AI PATTERN LAB">AI PATTERN LAB</h2>
-        <button onclick="toggleGeneratorMinimize()" id="btn-minimize-gen" class="btn-mini-ui">[_] MINIMIZE</button>
-    </div>
-
-    <div id="generator-main-ui" class="generator-compact-box">
-        <div class="mini-controls-row">
-            <select id="select-bab-gen" onchange="checkPatternCount()" class="select-mini">
+        <div id="page-generator" class="hidden">
+            <button class="btn-main" onclick="showPage('home')" style="border-color: #555; color: #555; text-shadow: none;">[ BACK_TO_MENU ]</button>
+            
+            <select id="select-bab-gen" class="neon-select">
                 </select>
-            <button id="btn-advanced" onclick="toggleAdvancedOptions()" class="btn-mini-ui hidden">OPSI [+]</button>
-        </div>
-
-        <div id="advanced-pattern-list" class="advanced-box-mini hidden">
-            <p class="label-mini">PILIH_POLA:</p>
-            <div id="checkbox-container" class="checkbox-grid-mini"></div>
-        </div>
-
-        <button onclick="generateNewBatch()" class="btn-gen-action">
-            GENERATE_NEW_PATTERN
-        </button>
-    </div>
-
-    <div id="ai-result-grid" class="result-grid-mini"></div>
-</section>
-
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper" id="pattern-slider">
-                    <div class="swiper-slide empty-slide" style="display: flex; justify-content: center; align-items: center; height: 300px; border: 1px dashed #333;">
-                        <p style="color: #666; font-family: 'Orbitron';">SILAKAN PILIH BAB DI SIDEBAR UNTUK MEMULAI</p>
-                    </div>
+            
+            <button class="btn-main" onclick="generateNewBatch()">GENERATE_NEW_BATCH</button>
+            
+            <div id="ai-result-grid">
                 </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </main>
-    </div>
-
-    <div class="miku-player">
-        <div class="player-content">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5JmVwPXYxX2ludGVybmFsX2dpZl9ieV9iZCZjdD1z/vVzH2Li3uMJI0/giphy.gif" class="miku-gif" alt="Miku Cyber">
-            <div class="player-info">
-                <div id="now-playing">SARASHIKI_SYSTEM: STANDBY</div>
-                <div class="progress-container"><div id="progress-bar" class="progress-fill"></div></div>
-            </div>
         </div>
     </div>
 
-    <div class="sidebar">
-    <div id="chapter-list"></div>
-</div>
+    <div id="detail-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="ai-response">
+                </div>
+            <div id="ai-generated-container"></div>
+        </div>
+    </div>
 
-<script src="grammar_data.js"></script>
-<script src="app.js"></script>
+    <script src="grammar_data.js"></script>
+    <script src="app.js"></script>
+
 </body>
 </html>
