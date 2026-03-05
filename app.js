@@ -34,8 +34,9 @@ function selectChapter(num, element) {
                     <small style="color:var(--miku-pink)">CONTOH:</small>
                     <p style="font-style:italic; font-size:0.85rem; margin-top:5px;">${p.examples[0].jp}</p>
                 </div>
-                <button class="btn-learn-more" style="margin-top:auto; padding:10px; border:1px solid var(--miku-cyan); background:transparent; color:white; cursor:pointer;">DETAIL_DATA</button>
-            `;
+                // Di dalam loop data.patterns.forEach(p => { ...
+// Ganti bagian button menjadi:
+<button class="btn-learn-more" onclick="openDeepDive('${p.id}')" style="margin-top:auto; padding:10px; border:1px solid var(--miku-cyan); background:transparent; color:white; cursor:pointer;">DETAIL_DATA</button>            `;
             wrapper.appendChild(slide);
         });
 
