@@ -663,3 +663,106 @@ Object.assign(grammarData, {
         ]
     }
 });
+Object.assign(grammarData, {
+    "bab21": {
+        title: "Bab 21: Pendapat & Kutipan (To Omoimasu / To Iimasu)",
+        patterns: [
+            {
+                id: "21.1",
+                label: "Futsuu-kei + to omoimasu",
+                desc: "Saya rasa / Menurut saya...",
+                rules: "Gunakan Bentuk Biasa (Futsuu-kei) sebelum と思います.",
+                usage: "Menyatakan opini.",
+                examples: [
+                    { jp: "日本は物価が高いと思います。", id: "Menurut saya harga barang di Jepang mahal." }
+                ]
+            },
+            {
+                id: "21.2",
+                label: "Futsuu-kei + to iimashita",
+                desc: "Berkata bahwa... (Kutipan tidak langsung).",
+                rules: "Menyampaikan pesan orang lain.",
+                usage: "Laporan informasi.",
+                examples: [
+                    { jp: "ミラーさんは「明日休みます」と言いました。", id: "Sdr. Miller berkata 'Besok saya libur'." }
+                ]
+            }
+        ]
+    },
+    "bab22": {
+        title: "Bab 22: Kalimat Modifikasi (Meishi Shuushoku)",
+        patterns: [
+            {
+                id: "22.1",
+                label: "KK (Futsuu-kei) + Kata Benda",
+                desc: "Menjelaskan kata benda menggunakan kalimat.",
+                rules: "Kalimat penjelas diletakkan di DEPAN kata benda.",
+                usage: "Sangat penting untuk deskripsi detail.",
+                examples: [
+                    { jp: "これは私が撮った写真です。", id: "Ini adalah foto yang SAYA POTRET." },
+                    { jp: "あそこにいる人は誰ですか。", id: "Orang yang ADA DI SANA itu siapa?" }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab23": {
+        title: "Bab 23: Waktu Kejadian (Toki / To)",
+        patterns: [
+            {
+                id: "23.1",
+                label: "KK (Jishokei) + Toki",
+                desc: "Saat / Ketika melakukan sesuatu.",
+                rules: "Bisa digunakan untuk KK, KS, maupun KB.",
+                usage: "Keterangan waktu.",
+                examples: [
+                    { jp: "図書館で本を借りる時、カードがいります。", id: "Saat meminjam buku di perpus, butuh kartu." }
+                ]
+            }
+        ]
+    },
+    "bab24": {
+        title: "Bab 24: Pemberian Jasa (Te-agemasu / Te-moraimasu)",
+        patterns: [
+            {
+                id: "24.1",
+                label: "KK-te agemasu / moraimasu / kuremasu",
+                desc: "Melakukan sesuatu demi kebaikan orang lain.",
+                rules: "Kuremasu: Orang lain melakukan sesuatu untuk SAYA.",
+                usage: "Budaya kesopanan Jepang.",
+                examples: [
+                    { jp: "私は佐藤さんに傘を貸してあげました。", id: "Saya meminjamkan payung kepada Sdr. Sato (sebagai bantuan)." },
+                    { jp: "母は私にセーターを送ってくれました。", id: "Ibu mengirimkan sweter untuk saya." }
+                ]
+            }
+        ]
+    }
+});
+Object.assign(grammarData, {
+    "bab25": {
+        title: "Bab 25: Pengandaian (Tara / Te mo)",
+        patterns: [
+            {
+                id: "25.1",
+                label: "KK-ta + ra (Tara)",
+                desc: "Kalau... / Jika... (Kondisional).",
+                rules: "Bentuk Lampau (Ta-kei) + ら (ra).",
+                usage: "Pengandaian.",
+                examples: [
+                    { jp: "お金があったら、旅行します。", id: "Kalau punya uang, saya akan jalan-jalan." }
+                ]
+            },
+            {
+                id: "25.2",
+                label: "KK-te mo / KS-kute mo",
+                desc: "Walaupun... / Meskipun...",
+                rules: "Bentuk TE + も (mo).",
+                usage: "Kontras.",
+                examples: [
+                    { jp: "雨が降っても、出かけます。", id: "Meskipun hujan turun, saya akan pergi keluar." }
+                ]
+            }
+        ]
+    }
+});
