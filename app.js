@@ -65,3 +65,28 @@ function updateSidebarStatus(chapterKey) {
 }
 
 renderSidebar();
+// Fungsi untuk menghitung progress per bab
+function updateSidebarStatus(chapterKey) {
+    const statSpan = document.getElementById(`stat-${chapterKey}`);
+    const data = grammarData[chapterKey];
+    const totalPatterns = data.patterns.length;
+    
+    let readCount = 0;
+    let memorizedCount = 0;
+
+    data.patterns.forEach(p => {
+        if (userProgress[p.id]?.read) readCount++;
+        if (userProgress[p.id]?.memorized) memorizedCount++;
+    });
+
+    // Kalkulasi persentase (Fokus ke Memorized/Hafal)
+    const percent = Math.round((memorizedCount / totalPatterns) * 100);
+    
+    statSpan.innerHTML = `
+        <span class="badge ${percent === 100 ? 'badge-complete' : 'badge-process'}">
+            ${percent}%
+        </span>
+    `;
+}
+
+// Tambahkan CSS untuk badge ini di style.css
