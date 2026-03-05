@@ -298,3 +298,26 @@ body {
 
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+
+
+
+
+
+
+
+
+
+.particle-analysis {
+    background: rgba(57, 197, 187, 0.1);
+    border-left: 3px solid var(--miku-cyan);
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 0.85rem;
+}
+
+.particle-highlight {
+    color: var(--miku-pink);
+    font-weight: bold;
+    text-decoration: underline;
+}
