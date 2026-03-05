@@ -395,3 +395,33 @@ body {
 .is-minimized .result-grid {
     margin-top: 10px;
 }
+
+
+
+
+.modal-body {
+    max-height: 70vh; /* Membatasi tinggi agar tidak meluber keluar layar */
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Scrollbar minimalis ala Miku */
+.modal-body::-webkit-scrollbar {
+    width: 4px;
+}
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--miku-cyan);
+    border-radius: 10px;
+}
+
+.modal-pattern-grid .btn-ai-gen {
+    border: 1px solid rgba(57, 197, 187, 0.3);
+    background: rgba(255, 255, 255, 0.02);
+    transition: 0.2s;
+}
+
+.modal-pattern-grid .btn-ai-gen:hover {
+    background: rgba(57, 197, 187, 0.1);
+    border-color: var(--miku-cyan);
+    transform: translateX(5px);
+}
