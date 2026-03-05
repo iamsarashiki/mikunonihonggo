@@ -70,3 +70,33 @@ body {
 .badge { font-size: 10px; padding: 2px 6px; border-radius: 10px; margin-left: 5px; }
 .badge-read { background: #238636; }
 .badge-memorized { background: #FFD700; color: #000; }
+/* Efek saat tombol aktif */
+.btn-done {
+    background: var(--miku-cyan) !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px var(--miku-cyan);
+}
+
+.btn-star {
+    background: #FFD700 !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px #FFD700;
+}
+
+.action-bar {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-action {
+    padding: 8px 15px;
+    border: 1px solid var(--miku-cyan);
+    background: transparent;
+    color: var(--miku-cyan);
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
