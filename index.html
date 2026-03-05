@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARASHIKI x MIKU | N4 Protocol & Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scanlines"></div>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="glitch-text-small" data-text="CHAPTERS">CHAPTERS</h2>
+            </div>
+            <nav id="chapter-list">
+                </nav>
+            <div class="sync-section">
+                <button onclick="exportData()" class="btn-sync">EXPORT DATA</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="hero-section">
+                <div class="main-menu-glitch">
+                    <h1 class="glitch-text" data-text="SARASHIKI">SARASHIKI</h1>
+                    <h2 class="glitch-text-sub" data-text="N4 PROTOCOL">N4 PROTOCOL</h2>
+                </div>
+            </header>
+
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper" id="pattern-slider">
+                    <div class="swiper-slide empty-slide">
+                        <p>Silakan pilih Bab di Sidebar untuk memulai sinkronisasi data.</p>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </main>
+    </div>
+
+    <div class="miku-player">
+        <div class="player-content">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5Z3R5JmVwPXYxX2ludGVybmFsX2dpZl9ieV9iZCZjdD1z/vVzH2Li3uMJI0/giphy.gif" class="miku-gif">
+            <div class="player-info">
+                <div id="now-playing">SARASHIKI_SYSTEM: STANDBY</div>
+                <div class="progress-container"><div id="progress-bar" class="progress-fill"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="grammar_data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
